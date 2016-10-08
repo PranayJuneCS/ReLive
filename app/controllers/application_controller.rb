@@ -38,4 +38,17 @@ class ApplicationController < ActionController::Base
   def privacy
     render file: "privacypolicy.htm"
   end
+
+  def new_image
+    puts params[:url]
+    response = Unirest.post "https://api.projectoxford.ai/vision/v1.0/describe",
+                            headers: {'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '68c50c26771e49fe85f6640afd72ba9e'},
+                            parameters: {'url': params[:url] }.to_json
+    tags = response.body["description"]["tags"]
+    captions = response.body["description"]["captions"]
+
+    # TODO: need to create database schema, table, and add to relation
+
+    render json: { "tags": tags, "captions": captions }
+  end
 end
