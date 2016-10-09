@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
                                            code: code,
                                            redirect_uri: @@redirect_uri
                                           }
+      puts response.body
       session[:access_token] = response.body["access_token"]
     end
 
