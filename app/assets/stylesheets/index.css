@@ -8,3 +8,7 @@
 .center-text {
   text-align: center
 }
+
+body, html {
+  margin: 0;
+}
