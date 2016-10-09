@@ -4,18 +4,21 @@ require 'json'
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  before_action :get_info, :except => [:login]
+
   @@client_id = "de0534bfebd644c6b8264da9c1cff6c6"
   @@client_secret = "52176792ef1e4cb98f13cdbab2689c2e"
   @@redirect_uri = Rails.env.development? ? "http://localhost:3000/login" : "https://filterz.herokuapp.com/login"
 
+  def get_info
+    @user = User.find_by(uid: session[:access_token])
+  end
+
   def root
-    @logged_in = session[:access_token]
-    
-    if @logged_in.nil?
+    if @user.nil?
       redirect_to "https://api.instagram.com/oauth/authorize/?client_id=" + @@client_id + "&redirect_uri=" + @@redirect_uri + "&response_type=code"
     else
-      user = User.find_by(uid: @logged_in)
-      @string = "I'm logged in son: " + user.name
+      @string = "I'm logged in son: " + @user.name
     end
   end
 
