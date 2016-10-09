@@ -1,15 +1,19 @@
 class App extends React.Component {
   render() {
     return (
-      <material.MuiThemeProvider>
+      <div>
         <material.AppBar title="Title" iconClassNameRight="muidocs-icon-navigation-expand-more" />
-      </material.MuiThemeProvider>
+        <br />
+        <input type='text'></input>
+      </div>
     )
   }
 }
 
 $( () => {
-  ReactDOM.render(<App />, document.getElementById('app'));
+  ReactDOM.render(<material.MuiThemeProvider>
+        <App />
+      </material.MuiThemeProvider>, document.getElementById('app'));
 
   $('#submitImage').on('click', () => {
     $.post("/image/new", {url: $('#imageURL').val()}, (data, status) => {

@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: laucity
+  api_key: '763363812828244'
+  api_secret: 4xldqQ3oNVHpNEh0lMPltu4CKW0
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: laucity
+  api_key: '763363812828244'
+  api_secret: 4xldqQ3oNVHpNEh0lMPltu4CKW0
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: laucity
+  api_key: '763363812828244'
+  api_secret: 4xldqQ3oNVHpNEh0lMPltu4CKW0
+  enhance_image_tag: true
+  static_image_support: false

@@ -9,6 +9,8 @@
       var isLoggedIn = "<%= @logged_in %>";
     </script>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= cloudinary_js_config %>
+    
     <%= stylesheet_link_tag "index" %>
   </head>
 
