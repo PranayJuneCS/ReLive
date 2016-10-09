@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   @@client_id = "de0534bfebd644c6b8264da9c1cff6c6"
   @@client_secret = "52176792ef1e4cb98f13cdbab2689c2e"
-  @@redirect_uri = "http://localhost:3000/login"
+  @@redirect_uri = Rails.env.development? ? "http://localhost:3000/login" : "https://filterz.herokuapp.com/login"
 
   def root
     @logged_in = session[:access_token]
