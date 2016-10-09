@@ -60,4 +60,8 @@ class ApplicationController < ActionController::Base
 
     render json: { "tags": tags, "captions": captions }
   end
+
+  def upload
+    redirect_to action: 'root' and return
+  end
 end

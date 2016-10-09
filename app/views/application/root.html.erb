@@ -8,6 +8,9 @@
   <input type="text" id="imageURL">
   <button id="submitImage">Submit</button>
 
-  <%= cl_image_upload_tag(:image_id) %>
+  <%= form_tag('/image/upload', :method => :post) do %>
+  	<%= cl_image_upload_tag(:image_id) %>
+  	<%= submit_tag("Upload") %>
+  <% end %>
 
 <div>
