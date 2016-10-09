@@ -1,10 +1,10 @@
-var Image = React.createClass({
-  propTypes: {
+class Image extends React.Component {
+  static propTypes: {
     url: React.PropTypes.string,
     caption: React.PropTypes.string
-  },
+  };
 
-  render: function() {
+  render() {
     return (
       <div>
         <img src={this.props.url} />
@@ -12,4 +12,4 @@ var Image = React.createClass({
       </div>
     );
   }
-});
+}
