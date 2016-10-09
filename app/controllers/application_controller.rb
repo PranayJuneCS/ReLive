@@ -14,7 +14,8 @@ class ApplicationController < ActionController::Base
     if @logged_in.nil?
       redirect_to "https://api.instagram.com/oauth/authorize/?client_id=" + @@client_id + "&redirect_uri=" + @@redirect_uri + "&response_type=code"
     else
-      @string = "I'm logged in son: " + session[:access_token]
+      user = User.find_by(uid: @logged_in)
+      @string = "I'm logged in son: " + user.name
     end
   end
 
@@ -29,8 +30,12 @@ class ApplicationController < ActionController::Base
                                            code: code,
                                            redirect_uri: @@redirect_uri
                                           }
-      puts response.body
-      session[:access_token] = response.body["access_token"]
+      user = response.body["user"]
+      token = response.body["access_token"]
+      if User.find_by(uid: token).nil?
+        User.create({ uid: token, name: user["full_name"] })
+      end
+      session[:access_token] = token
     end
 
     redirect_to action: "root" and return
