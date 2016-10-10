@@ -1,4 +1,4 @@
-import Dropzone from 'react-dropzone';
+import DropzoneComponent from 'react-dropzone-component';
 import request from 'superagent';
 
 const CLOUDINARY_UPLOAD_PRESET = 'yd1pwftm';
@@ -6,10 +6,10 @@ const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/laucity/upload';
 
 class App extends React.Component {
 
-  onImageDrop(files) {
+  onImageDrop(file) {
     let upload = request.post(CLOUDINARY_UPLOAD_URL)
                         .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                        .field('file', files[0]);
+                        .field('file', file);
 
     upload.end((err, response) => {
       if (err) {
@@ -34,18 +34,27 @@ class App extends React.Component {
   }
 
   render() {
+    const config = {
+      iconFiletypes: ['.jpg', '.png', '.jpeg'],
+      showFiletypeIcon: false,
+      postUrl: 'no-url'
+    };
+
+    const djsConfig = {
+      acceptedFiles: "image/jpeg, image/png, image/jpg",
+      autoProcessQueue: false,
+    };
+
+    const eventHandlers = {
+      addedfile: this.onImageDrop
+    }
+
     return (
       <div>
         <material.AppBar title="Title" iconClassNameRight="muidocs-icon-navigation-expand-more" />
         <br />
         <div>
-          <Dropzone
-            multiple={false}
-            accept="image/*"
-            onDrop={this.onImageDrop.bind(this)}
-          >
-          <p>Drop an image or click to select a file to upload.</p>
-          </Dropzone>
+          <DropzoneComponent config={config} eventHandlers={eventHandlers} djsConfig={djsConfig} />
         </div>
 
       </div>
