@@ -29,6 +29,8 @@ gem 'sprockets-es6'
 
 gem 'unirest'
 
+gem 'pry'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

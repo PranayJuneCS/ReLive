@@ -1,4 +1,3 @@
-require 'unirest'
 require 'json'
 
 class ApplicationController < ActionController::Base
@@ -49,19 +48,10 @@ class ApplicationController < ActionController::Base
   end
 
   def new_image
-    puts params[:url]
-    response = Unirest.post "https://api.projectoxford.ai/vision/v1.0/describe",
-                            headers: {'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '68c50c26771e49fe85f6640afd72ba9e'},
-                            parameters: {'url': params[:url] }.to_json
-    tags = response.body["description"]["tags"]
-    captions = response.body["description"]["captions"]
 
-    # TODO: need to create database schema, table, and add to relation
-
-    render json: { "tags": tags, "captions": captions }
+    photo = Photo.create(url: params[:url], user_id: @user.id)
+    
+    render json: { "tags": photo.tags, "captions": photo.captions }
   end
 
-  def upload
-    redirect_to action: 'root' and return
-  end
 end

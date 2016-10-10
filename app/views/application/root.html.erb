@@ -3,14 +3,7 @@
   <h1>Filterz</h1>
   <br>
   <h3><%= @string %></h3>
-
-  <h3>Enter an image URL</h3>
-  <input type="text" id="imageURL">
-  <button id="submitImage">Submit</button>
-
-  <%= form_tag('/image/upload', :method => :post) do %>
-  	<%= cl_image_upload_tag(:image_id) %>
-  	<%= submit_tag("Upload") %>
-  <% end %>
-
+  <br>
+  <div id='picture'>
 <div>
+

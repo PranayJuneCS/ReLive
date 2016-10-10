@@ -4,5 +4,4 @@ Rails.application.routes.draw do
   get '/login', to: 'application#login'
   get '/privacy', to: 'application#privacy'
   post '/image/new', to: 'application#new_image'
-  post '/image/upload', to: 'application#upload'
 end
