@@ -12,3 +12,8 @@
 body, html {
   margin: 0;
 }
+
+.center-flex {
+  display: flex;
+  justify-content: center;
+}

@@ -5,11 +5,12 @@
 
 div.filepicker {
     text-align: center;
-    padding: 5px;
+    padding: 15px;
     background-color: white;
     border-radius: 5px;
     min-height: 60px;
     border: 2px dashed #0087F7;
+    max-width: 1000px;
 }
 
 /* Icon */
@@ -66,8 +67,8 @@ div.filepicker {
 
     width: 0;
     height: 0;
-
+/*
     border-width: 11px 0 0 11px;
     border-style: solid;
-    border-color: white transparent transparent #920035;
+    border-color: white transparent transparent #920035;*/
 }

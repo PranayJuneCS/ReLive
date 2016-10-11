@@ -51,9 +51,9 @@ class App extends React.Component {
 
     return (
       <div>
-        <material.AppBar title="Title" iconClassNameRight="muidocs-icon-navigation-expand-more" />
+        <material.AppBar title="Filterz" iconClassNameRight="muidocs-icon-navigation-expand-more" />
         <br />
-        <div>
+        <div className="center-flex">
           <DropzoneComponent config={config} eventHandlers={eventHandlers} djsConfig={djsConfig} />
         </div>
 
