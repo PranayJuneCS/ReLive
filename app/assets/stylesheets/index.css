@@ -1,10 +1,3 @@
-#container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
 .center-text {
   text-align: center
 }
@@ -16,4 +9,12 @@ body, html {
 .center-flex {
   display: flex;
   justify-content: center;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.navbar {
+  margin-bottom: 5px;
 }

@@ -1,7 +1,7 @@
 const CLOUDINARY_UPLOAD_PRESET = 'yd1pwftm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/laucity/upload';
 
-class Dropzone extends React.Component {
+class DropZone extends React.Component {
 
   onImageDrop(file) {
     let upload = request.post(CLOUDINARY_UPLOAD_URL)

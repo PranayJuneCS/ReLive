@@ -6,9 +6,9 @@ class Image extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="center-flex column">
         <img src={this.props.url} />
-        <div className="center-text">{this.props.caption}</div>
+        <div>{this.props.caption}</div>
       </div>
     );
   }
