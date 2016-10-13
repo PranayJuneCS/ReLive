@@ -1,4 +1,3 @@
 $(() => {
-  ReactDOM.render(<AppBar />, document.getElementById('appbar'));
-  ReactDOM.render(<DropZone />, document.getElementById('content'));
+  ReactDOM.render(<App />, document.getElementById('app'));
 });
