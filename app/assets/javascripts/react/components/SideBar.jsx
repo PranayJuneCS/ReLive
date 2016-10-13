@@ -1,15 +1,11 @@
-class SideBar extends React.Component {
-
+class Sidebar extends React.Component {
   render() {
-    return(
-      <material.Drawer
-        docked={false}
-        width={300}
-        open={this.props.open}
-      >
-        <material.MenuItem onTouchTap={this.props.toggleCallback}>Menu Item</material.MenuItem>
-        <material.MenuItem onTouchTap={this.props.toggleCallback}>Menu Item 2</material.MenuItem>
-      </material.Drawer>
-    )
+    return (
+      <ul id="slide-out" className="side-nav">
+        <li><a href="#"><i className="material-icons">view_module</i>Gallery</a></li>
+        <li><a href="#upload"><i className="material-icons">open_in_browser</i>Upload</a></li>
+      </ul>
+    );
   }
 }
+

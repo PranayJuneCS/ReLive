@@ -10,21 +10,22 @@ class App extends React.Component {
 
   }
 
-  render() {
-
-    var content;
+  renderMainContent() {
+    let content;
     if (this.state.page == "#" || this.state.page == "#home") {
       content = <Gallery />
     } else if (this.state.page == "#upload") {
-      content = <p>Hello</p>
+      content = <Upload />
     }
+    return content;
+  }
 
+  render() {
     return (
       <div>
         <AppBar />
-        {content}
+        {this.renderMainContent()}
       </div>
-
     );
   }
 }
