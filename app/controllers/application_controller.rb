@@ -9,15 +9,15 @@ class ApplicationController < ActionController::Base
   @@client_secret = "52176792ef1e4cb98f13cdbab2689c2e"
   @@redirect_uri = Rails.env.development? ? "http://localhost:3000/login" : "https://filterz.herokuapp.com/login"
 
+  # Before filter
   def get_info
     @user = User.find_by(uid: session[:access_token])
   end
 
+  # Render "/"
   def root
     if @user.nil?
       redirect_to "https://api.instagram.com/oauth/authorize/?client_id=" + @@client_id + "&redirect_uri=" + @@redirect_uri + "&response_type=code"
-    else
-      @string = "I'm logged in son: " + @user.name
     end
   end
 
@@ -47,9 +47,14 @@ class ApplicationController < ActionController::Base
     render file: "privacypolicy.htm"
   end
 
-  def new_image
+  def new_photo
     photo = Photo.create(url: params[:url], user_id: @user.id)
     render json: { "tags": photo.tags, "captions": photo.captions }
+  end
+
+  def get_photos
+    images = Photo.where(user_id: @user.id)
+    render json: images.to_json(include: [:tags, :captions])
   end
 
 end

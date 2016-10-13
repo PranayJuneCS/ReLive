@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   get '/', to: 'application#root'
   get '/login', to: 'application#login'
   get '/privacy', to: 'application#privacy'
-  post '/image/new', to: 'application#new_image'
+  get '/photos', to: 'application#get_photos'
+  post '/photo/new', to: 'application#new_photo'
+
 end

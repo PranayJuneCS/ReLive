@@ -9,10 +9,10 @@ class AppBar extends React.Component {
           <nav>
             <div className="nav-wrapper container">
               <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
-              <a href="#" className="brand-logo"><i className="material-icons">filter</i>Filterz</a>
+              <a href="#" className="brand-logo"><i className="material-icons">filter</i>Filterz <em style={{fontSize: "14px"}}>CalHacks 3.0</em></a>
               <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li><a href="#home" className="nav-anchor">Gallery</a></li>
-                <li><a href="#upload" className="nav-anchor">Upload</a></li>
+                <li className={["#home", "#"].includes(this.props.active) ? "active" : ""}><a href="#home" className="nav-anchor">Gallery</a></li>
+                <li className={this.props.active == "#upload" ? "active" : ""}><a href="#upload" className="nav-anchor">Upload</a></li>
               </ul>
             </div>
           </nav>
@@ -20,7 +20,7 @@ class AppBar extends React.Component {
         
 
         {/* Sidebar */}
-        <Sidebar />
+        <Sidebar active={this.props.active}/>
       </div>
     );
   }

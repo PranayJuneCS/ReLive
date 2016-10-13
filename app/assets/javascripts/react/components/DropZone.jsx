@@ -1,5 +1,6 @@
 const CLOUDINARY_UPLOAD_PRESET = 'yd1pwftm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/laucity/upload';
+const NEW_PHOTO_URL = '/photo/new'
 
 class DropZone extends React.Component {
 
@@ -23,7 +24,7 @@ class DropZone extends React.Component {
 
       let cloudURL = response.body.secure_url;
       if (cloudURL !== '') {
-        $.post("/image/new", { url: cloudURL }, (data, status) => {
+        $.post(NEW_PHOTO_URL, { url: cloudURL }, (data, status) => {
 
           if (status === "success") {
             caption = data.captions[0]
