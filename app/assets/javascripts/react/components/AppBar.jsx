@@ -11,19 +11,16 @@ class AppBar extends React.Component {
 
   render() {
     return (
-      <div>
-
-        <ul id="slide-out" className="side-nav">
-          <li><a href="#!"><i className="material-icons">cloud</i>First Link With Icon</a></li>
-          <li><a href="#!">Second Link</a></li>
-          <li><div className="divider"></div></li>
-          <li><a className="subheader">Subheader</a></li>
-          <li><a className="waves-effect" href="#!">Third Link With Waves</a></li>
-        </ul>
-
-
-        
-        <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
+      <div className="navbar-fixed">
+        <nav>
+          <div className="nav-wrapper container">
+            <a href="#" className="brand-logo"><material.Icon>filter</material.Icon>Filterz</a>
+            <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <li><a href="#home" className="nav-anchor">Gallery</a></li>
+              <li><a href="#upload" className="nav-anchor">Upload</a></li>
+            </ul>
+          </div>
+        </nav>
       </div>
     );
   }
