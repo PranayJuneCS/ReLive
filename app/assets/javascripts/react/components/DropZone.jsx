@@ -3,7 +3,15 @@ const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/laucity/upload';
 
 class DropZone extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      upload: 'before'
+    };
+  }
+
   onImageDrop(file) {
+    this.setState({ upload: 'uploading' });
     let upload = request.post(CLOUDINARY_UPLOAD_URL)
                         .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                         .field('file', file);
@@ -20,14 +28,28 @@ class DropZone extends React.Component {
           if (status === "success") {
             caption = data.captions[0]
 
-            ReactDOM.render(
-              <Image url={cloudURL} caption={caption.text} />,
-              document.getElementById('picture')
-            );
+            this.setState({ upload: 'finished' });
           }
         });
       }
     });
+  }
+
+  status() {
+    if (this.state.upload == 'uploading') {
+      return (
+        <div>
+          <p>Uploading...</p>
+        </div>
+      );
+    } else if (this.state.upload == 'finished') {
+      return (
+        <div>
+          <p>Finished!</p>
+        </div>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -43,12 +65,13 @@ class DropZone extends React.Component {
     };
 
     const eventHandlers = {
-      addedfile: this.onImageDrop
+      addedfile: this.onImageDrop.bind(this)
     }
 
     return (
       <div className="center-flex">
         <DropzoneComponent config={config} eventHandlers={eventHandlers} djsConfig={djsConfig} />
+        {this.status()}
       </div>
     );
   }
