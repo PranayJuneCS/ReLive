@@ -4,15 +4,21 @@
     <title>Filterz</title>
     <%= csrf_meta_tags %>
 
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    
     <script>
       var isLoggedIn = "<%= @logged_in %>";
     </script>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag "index" %>
+
   </head>
 
   <body>
     <%= yield %>
   </body>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src='/materialize.min.js' type='text/javascript'>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag "index" %>
 </html>
