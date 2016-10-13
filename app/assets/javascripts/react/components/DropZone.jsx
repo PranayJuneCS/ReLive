@@ -70,10 +70,14 @@ class DropZone extends React.Component {
     }
 
     return (
-      <div>
-        <DropzoneComponent config={config} eventHandlers={eventHandlers} djsConfig={djsConfig} />
-        {this.status()}
-      </div>
+        <div className="center-items">
+          <div className="valign">
+            <br />
+            <DropzoneComponent config={config} eventHandlers={eventHandlers} djsConfig={djsConfig} />
+            <br />
+            {this.status()}
+          </div>
+        </div>
     );
   }
 }

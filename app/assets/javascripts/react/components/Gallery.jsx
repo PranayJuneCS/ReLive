@@ -1,53 +1,38 @@
 class Gallery extends React.Component {
 
-  constructor(props) {
-    super(props)
+  componentWillMount() {
+    let pictures = [[], [], []];
+
+    counter = 0;
+    for (let photo of this.props.photos) {
+      let caption = photo.captions[0].text;
+      let card =  <PhotoCard key={counter} url={photo.url} caption={caption} />;
+      pictures[counter % 3].push(card);
+      counter += 1;
+    }
+    this.photos = pictures;
+  }
+
+  renderColumn(index) {
+    return (
+      <div className="col s12 m6 l4 center">
+        <div className="row">
+          {this.photos[index]}
+        </div>
+      </div>
+    );
   }
 
   render() {
-
-    photos = [[], [], []]
-
-    counter = 0
-    for (let photo of this.props.photos) {
-      let card =  <div className="col s12 center">
-                    <div className="card">
-                      <div className="card-image">
-                        <img src={photo.url} />
-                      </div>
-                      <div className="card-content">
-                        <span className="item-card-title">{photo.captions[0].text}</span>
-                      </div>
-                    </div>
-                  </div>
-
-      photos[counter % 3].push(card)
-      counter += 1;
-    }
-
     return (
       <div className="">
         <div className="container">
 
           <div className="row">
 
-            <div className="col s12 m6 l4 center">
-              <div className="row">
-                {photos[0]}
-              </div>
-            </div>
-
-            <div className="col s12 m6 l4 center">
-              <div className="row">
-                {photos[1]}
-              </div>
-            </div>
-
-            <div className="col s12 m6 l4 center">
-              <div className="row">
-                {photos[2]}
-              </div>
-            </div>
+            {this.renderColumn.call(this, 0)}
+            {this.renderColumn.call(this, 1)}
+            {this.renderColumn.call(this, 2)}
 
           </div>
 

@@ -18,3 +18,8 @@ body, html {
 .navbar {
   margin-bottom: 5px;
 }
+
+.center-items {
+  align-items: center;
+  display: inline-flex;
+}

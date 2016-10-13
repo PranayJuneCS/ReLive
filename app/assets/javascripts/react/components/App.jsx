@@ -6,10 +6,10 @@ class App extends React.Component {
     super(props)
     this.state = {
       page: window.location.hash == "" ? "#" : window.location.hash,
-      photos: []
+      photos: [],
+      loading: false
     };
-    this.requestContent(this.state.page);
-
+    
     $('body').on('click', 'a', (event) => {
       this.setState({page: event.currentTarget.getAttribute("href")});
       this.requestContent(this.state.page);
@@ -17,15 +17,30 @@ class App extends React.Component {
 
   }
 
+  componentWillMount() {
+    this.requestContent(this.state.page);
+  }
+
   requestContent(page) {
+    this.setState({ loading: true });
     if (page == "#home" || page == "#") {
       request.get(ALL_PHOTOS_URL).end((error, response) => {
-        this.setState({ photos: JSON.parse(response.text) });
-      })
+        this.setState({ photos: JSON.parse(response.text), loading: false });
+      });
+    } else {
+      this.setState({ loading: false });
     }
   }
 
   renderMainContent() {
+    if (this.state.loading) {
+      return (
+        <div>
+          <h1 className="center-align">Loading...</h1>
+        </div>
+      );
+    }
+
     let content;
     if (this.state.page == "#" || this.state.page == "#home") {
       content = <Gallery photos={this.state.photos}/>
