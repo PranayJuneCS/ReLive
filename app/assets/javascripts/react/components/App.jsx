@@ -11,8 +11,15 @@ class App extends React.Component {
     };
     
     $('body').on('click', 'a', (event) => {
-      this.setState({page: event.currentTarget.getAttribute("href")});
-      this.requestContent(this.state.page);
+      if (event.currentTarget.getAttribute("href") != this.state.page) {
+        $('.content').fadeOut(100).delay(100).fadeIn(100);
+        setTimeout(() => {
+          this.setState({page: event.currentTarget.getAttribute("href")});
+          this.requestContent(this.state.page);
+          $('ul.tabs').tabs('select_tab', this.state.page.slice(1));
+        }, 100)
+      }
+      return false;
     })
 
   }
@@ -23,7 +30,7 @@ class App extends React.Component {
 
   requestContent(page) {
     this.setState({ loading: true });
-    if (page == "#home" || page == "#") {
+    if (page == "#") {
       request.get(ALL_PHOTOS_URL).end((error, response) => {
         this.setState({ photos: JSON.parse(response.text), loading: false });
       });
@@ -42,7 +49,7 @@ class App extends React.Component {
     }
 
     let content;
-    if (this.state.page == "#" || this.state.page == "#home") {
+    if (this.state.page == "#") {
       content = <Gallery photos={this.state.photos}/>
     } else if (this.state.page == "#upload") {
       content = <Upload />
@@ -54,7 +61,9 @@ class App extends React.Component {
     return (
       <div>
         <AppBar active={this.state.page}/>
-        {this.renderMainContent()}
+        <div className="content">
+          {this.renderMainContent()}
+        </div>
       </div>
     );
   }

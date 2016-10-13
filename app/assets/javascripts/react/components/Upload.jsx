@@ -11,20 +11,18 @@ class Upload extends React.Component {
     this.state = {
       activeStep: 0
     };
+  }
 
-    $('body').on('click', '.collapsible-header', (event) => {
-      if (event.target.className.includes("active")) {
-        this.setState({ activeStep: mapper[event.target.id]});
-      } else {
-        this.setState({ activeStep: null })
-      }
-    });
+  componentDidMount() {
+    $('.collapsible').collapsible();  
   }
 
   render() {
     return (
       <div className="container center-align">
         <h1>Upload a Photo</h1>
+
+
         <ul className="collapsible" data-collapsible="accordion">
           <li id="yo">
             <div id="choose_photo" className="collapsible-header active"><i className="material-icons">filter_drama</i>Choose a Photo</div>
@@ -41,6 +39,8 @@ class Upload extends React.Component {
             <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
           </li>
         </ul>
+
+
       </div>
     );
   }
