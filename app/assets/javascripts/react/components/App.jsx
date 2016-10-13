@@ -6,7 +6,6 @@ class App extends React.Component {
 
     $('body').on('click', 'a', (event) => {
       this.setState({page: event.currentTarget.getAttribute("href")});
-      return false
     })
 
   }
@@ -14,7 +13,6 @@ class App extends React.Component {
   render() {
 
     var content;
-    console.log(window.location.hash)
     if (this.state.page == "#" || this.state.page == "#home") {
       content = <Gallery />
     } else if (this.state.page == "#upload") {
@@ -23,7 +21,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <AppBar/>
+        <AppBar />
         {content}
       </div>
 

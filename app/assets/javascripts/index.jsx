@@ -1,5 +1,7 @@
 $(() => {
   ReactDOM.render(
-      <App />,
+    <App />,
   document.getElementById('app'));
+
+  $('.button-collapse').sideNav({ closeOnClick: true })
 });
