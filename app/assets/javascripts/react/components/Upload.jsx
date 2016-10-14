@@ -2,18 +2,35 @@ const CLOUDINARY_UPLOAD_PRESET = 'yd1pwftm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/laucity/upload';
 const NEW_PHOTO_URL = '/photo/new'
 
+const mapper = {
+  "choose_photo": 0,
+  "edit_captions": 1,
+  "confirm": 2
+};
+
 class Upload extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       activeStep: 0,
-      uploading: 'before'
+      uploading: 'before',
+      pic_url: null
     };
+
+    $('body').on('click', '.collapsible-header', (event) => {
+      if (event.target.className.includes("active")) {
+        this.setState({ activeStep: mapper[event.target.id]});
+      } else {
+        this.setState({ activeStep: null })
+      }
+      console.log(this.state.activeStep);
+    });
+
   }
 
   componentDidMount() {
-    $('.collapsible').collapsible();  
+    $('.collapsible').collapsible(); 
   }
 
   onImageDrop(file) {
@@ -34,7 +51,7 @@ class Upload extends React.Component {
           if (status === "success") {
             caption = data.captions[0]
 
-            this.setState({ upload: 'finished' });
+            this.setState({ upload: 'finished', pic_url: cloudURL });
           }
         });
       }
@@ -62,7 +79,6 @@ class Upload extends React.Component {
     return (
       <div className="container center-align">
         <h1>Upload a Photo</h1>
-
 
         <ul className="collapsible" data-collapsible="accordion">
           <li id="yo">
