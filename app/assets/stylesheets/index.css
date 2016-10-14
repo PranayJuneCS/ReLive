@@ -28,3 +28,10 @@ body, html {
   margin: 0;
   padding: 2rem;
 }
+
+.custom-carousel {
+  position: absolute !important;
+  bottom: 0 !important;
+  top: 48px !important;
+  height: auto !important;
+}
