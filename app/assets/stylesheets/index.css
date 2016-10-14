@@ -23,3 +23,8 @@ body, html {
   align-items: center;
   display: inline-flex;
 }
+
+.collapsible-elem {
+  margin: 0;
+  padding: 2rem;
+}
