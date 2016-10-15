@@ -9,6 +9,7 @@ div.filepicker {
     background-color: white;
     border-radius: 5px;
     min-height: 60px;
+    height: 100%;
     border: 2px dashed #0087F7;
     max-width: 1000px;
 }

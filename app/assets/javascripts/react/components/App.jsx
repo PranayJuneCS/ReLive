@@ -3,33 +3,38 @@ let ALL_PHOTOS_URL = "/photos"
 class App extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+
     this.state = {
       page: window.location.hash == "" ? "#" : window.location.hash,
       photos: [],
       loading: false
     };
     
-    $('body').on('click', 'a', (event) => {
+    $('body').on('click', 'a.page-link', (event) => {
       if (event.currentTarget.getAttribute("href") != this.state.page) {
         $('.content').fadeOut(100).delay(100).fadeIn(100);
         setTimeout(() => {
           this.setState({page: event.currentTarget.getAttribute("href")});
-          this.requestContent(this.state.page);
-          $('ul.tabs').tabs('select_tab', this.state.page.slice(1));
+          this.requestContent(this.state.page, true);
+          $('ul.tabs#nav-tabs').tabs('select_tab', this.state.page.slice(1));
         }, 100)
       }
+
       return false;
     })
 
   }
 
   componentWillMount() {
-    this.requestContent(this.state.page);
+    this.requestContent(this.state.page, true);
   }
 
-  requestContent(page) {
-    this.setState({ loading: true });
+  requestContent(page, refresh) {
+    if (refresh) {
+      this.setState({ loading: true });
+    }
+
     if (page == "#") {
       request.get(ALL_PHOTOS_URL).end((error, response) => {
         this.setState({ photos: JSON.parse(response.text), loading: false });
@@ -49,11 +54,10 @@ class App extends React.Component {
     }
 
     let content;
-    if (this.state.page == "#") {
+    if (this.state.page === "#") {
       content = <Gallery photos={this.state.photos}/>
-    } else if (this.state.page == "#upload") {
-      content = <Upload />
     }
+    
     return content;
   }
 
@@ -64,6 +68,7 @@ class App extends React.Component {
         <div className="content">
           {this.renderMainContent()}
         </div>
+        <UploadModal refresh={this.requestContent.bind(this)} />
       </div>
     );
   }

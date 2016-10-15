@@ -42,7 +42,7 @@
     }
 
     &.disabled a {
-      color: lighten($tabs-text-color, 20%);
+      color: lighten($tabs-text-color, 50%);
       cursor: default;
     }
   }

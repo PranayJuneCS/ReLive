@@ -21,11 +21,9 @@ class DropZone extends React.Component {
     }
 
     return (
-        <div className="center-items">
-          <div className="valign">
-            <DropzoneComponent config={config} eventHandlers={eventHandlers} djsConfig={djsConfig} />
-          </div>
-        </div>
+      <div className="upload-modal-height">
+        <DropzoneComponent config={config} eventHandlers={eventHandlers} djsConfig={djsConfig} />
+      </div>
     );
   }
 }

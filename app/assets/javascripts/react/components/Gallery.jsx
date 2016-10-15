@@ -6,10 +6,18 @@ class Gallery extends React.Component {
   }
 
   componentWillMount() {
+    this.setPhotos(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setPhotos(nextProps);
+  }
+
+  setPhotos(props) {
     let photos = [[], [], [], []];
 
     counter = 0;
-    for (let photo of this.props.photos) {
+    for (let photo of props.photos) {
       let caption = photo.captions[0].text;
       let card =  <PhotoCard key={counter} url={photo.url} caption={caption} />;
       photos[counter % photos.length].push(card);
@@ -29,6 +37,7 @@ class Gallery extends React.Component {
   }
 
   render() {
+
     return (
       <div className="">
         <div className="container">

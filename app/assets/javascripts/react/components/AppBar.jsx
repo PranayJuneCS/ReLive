@@ -1,7 +1,15 @@
 class AppBar extends React.Component {
 
+  constructor(props) {
+    super(props);
+    
+    $('body').on('click', 'a.upload', (event) => {
+      $('a[href="#upload-photo"]').click(); // click tab
+    });
+  }
+
   componentDidMount() {
-    $('ul.tabs').tabs();
+    $('ul.tabs#nav-tabs').tabs();
     $('.button-collapse').sideNav({ closeOnClick: true });
   }
 
@@ -18,9 +26,9 @@ class AppBar extends React.Component {
 
               <div className="row hide-on-med-and-down">
                 <div className="right col s3">
-                  <ul className="tabs">
-                    <li id="#" className="tab col s1"><a id="#" href="#" className="nav-anchor">Gallery</a></li>
-                    <li id="#upload" className="tab col s1"><a id="#upload" href="#upload" className="nav-anchor">Upload</a></li>
+                  <ul id="nav-tabs" className="tabs">
+                    <li id="#" className="tab col s1"><a id="#" href="#" className="nav-anchor page-link">Gallery</a></li>
+                    <li id="#upload" className="tab col s1"><a id="#upload" href="#uploadModal" className="nav-anchor upload modal-trigger">Upload</a></li>
                   </ul>
                 </div>
               </div>

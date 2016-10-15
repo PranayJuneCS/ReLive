@@ -2,13 +2,7 @@ const CLOUDINARY_UPLOAD_PRESET = 'yd1pwftm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/laucity/upload';
 const NEW_PHOTO_URL = '/photo/new'
 
-const mapper = {
-  "choose_photo": 0,
-  "edit_captions": 1,
-  "confirm": 2
-};
-
-class Upload extends React.Component {
+class UploadModal extends React.Component {
 
   constructor(props) {
     super(props);
@@ -18,24 +12,19 @@ class Upload extends React.Component {
       pic_url: null
     };
 
-    // $('body').on('click', '.collapsible-header', (event) => {
-    //   if (event.target.className.includes("active")) {
-    //     this.setState({ activeStep: mapper[event.target.id]});
-    //   } else {
-    //     this.setState({ activeStep: null })
-    //   }
-    //   console.log(this.state.activeStep);
-    // });
+    $('body').on('click', 'a.modal-close', (event) => {
+      $('ul.tabs#nav-tabs').tabs('select_tab', '');
+    })
 
   }
 
   componentDidMount() {
-    $('.collapsible').collapsible();
-    $('.carousel.carousel-slider').carousel({
-      full_width: true,
-      no_wrap: true,
-      time_constant: 300,
-      dist: 0
+    $('ul.tabs#upload-modal-tabs').tabs();
+    $('.modal-trigger').leanModal({ 
+      dismissible: false,
+      complete: (event) => {
+        this.props.refresh("#", false);
+      }
     });
   }
 
@@ -109,18 +98,28 @@ class Upload extends React.Component {
 
   render() {
     return (
-      <div className="carousel carousel-slider center custom-carousel" data-indicators="true">
-        <div className="carousel-item red white-text" href="#one!">
-          <h2>Choose a Photo</h2>
-          <p className="white-text">Choose a Photo</p>
+      <div id="uploadModal" className="modal modal-fixed-footer">
+
+        <div className="modal-content">
+
+          {/* Tabs */}
+          <div className="row">
+            <div className="col s12">
+              <ul id="upload-modal-tabs" className="tabs">
+                <li className="tab col s1"><a href="#upload-photo">Import Photo</a></li>
+                <li className="tab col s1 disabled"><a href="#edit-photo">Edit & Confirm</a></li>
+              </ul>
+            </div>
+          </div>
+
+
+          <DropZone uploadImage={this.onImageDrop.bind(this)} />
+          {this.status()}
+
         </div>
-        <div className="carousel-item amber white-text" href="#two!">
-          <h2>Second Panel</h2>
-          <p className="white-text">This is your second panel</p>
-        </div>
-        <div className="carousel-item green white-text" href="#three!">
-          <h2>Third Panel</h2>
-          <p className="white-text">This is your third panel</p>
+        <div className="modal-footer">
+          <a href="#" className="modal-action waves-effect waves-green btn-flat ">Next</a>
+          <a href="#" className="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
         </div>
       </div>
     );

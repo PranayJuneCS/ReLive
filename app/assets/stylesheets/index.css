@@ -35,3 +35,7 @@ body, html {
   top: 48px !important;
   height: auto !important;
 }
+
+.upload-modal-height {
+  height: calc(100% - 68px);
+}
