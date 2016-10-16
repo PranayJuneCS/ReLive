@@ -70,32 +70,6 @@ class UploadModal extends React.Component {
     return null;
   }
 
-  // <div className="container center-align">
-  //       <h1>Upload a Photo</h1>
-
-  //       <ul className="collapsible" data-collapsible="accordion">
-  //         <li id="yo">
-  //           <div id="choose_photo" className="collapsible-header active"><i className="material-icons">filter_drama</i>Choose a Photo</div>
-  //           <div className="collapsible-body">
-  //             <div className="center-items collapsible-elem">
-  //               <DropZone uploadImage={this.onImageDrop.bind(this)} />
-  //               {this.status()}
-  //             </div>
-  //           </div>
-  //         </li>
-  //         <li>
-  //           <div id="edit_captions" className="collapsible-header"><i className="material-icons">place</i>Edit Caption</div>
-  //           <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-  //         </li>
-  //         <li>
-  //           <div id="confirm" className="collapsible-header"><i className="material-icons">whatshot</i>Confirm</div>
-  //           <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-  //         </li>
-  //       </ul>
-
-
-  //     </div>
-
   render() {
     return (
       <div id="uploadModal" className="modal modal-fixed-footer">
@@ -110,11 +84,20 @@ class UploadModal extends React.Component {
                 <li className="tab col s1 disabled"><a href="#edit-photo">Edit & Confirm</a></li>
               </ul>
             </div>
+
+            
+          </div>
+
+          <div id="upload-photo" className="upload-modal-height">
+            <DropZone uploadImage={this.onImageDrop.bind(this)} />
+            {this.status()}
+          </div>
+
+          <div id="edit-photo" className="col s12">
+            <p>yo</p>
           </div>
 
 
-          <DropZone uploadImage={this.onImageDrop.bind(this)} />
-          {this.status()}
 
         </div>
         <div className="modal-footer">

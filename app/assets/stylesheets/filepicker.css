@@ -12,6 +12,9 @@ div.filepicker {
     height: 100%;
     border: 2px dashed #0087F7;
     max-width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Icon */

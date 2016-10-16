@@ -3,7 +3,7 @@ class PhotoCard extends React.Component {
 	render() {
     return (
       <div className="col s12 center">
-        <a href="#">
+        <a>
           <div className="card hoverable">
             <div className="card-image">
               <img src={this.props.url} />
