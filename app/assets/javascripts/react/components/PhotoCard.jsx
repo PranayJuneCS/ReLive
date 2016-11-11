@@ -9,9 +9,10 @@ class PhotoCard extends React.Component {
     this.setState({selected: true});
     $(".container.gallery").addClass("push-back");
     setTimeout(function(comp) {
-          $(".selected-photo img").removeClass("hide").addClass("fadeIn");
+          $(".selected-photo").removeClass("hide").addClass("fadeIn");
           $(".selected-photo img").attr('src', comp[0].props.url);
-    }, 250, [this])
+          $(".selected-photo img").css({"top": $('body').scrollTop() + (screen.height / 2) - 100, left: screen.width / 2});
+    }, 150, [this])
   }
 
 	render() {

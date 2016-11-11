@@ -58,8 +58,9 @@ class App extends React.Component {
       content = 
         <div>
           <Gallery photos={this.state.photos}/>
-          <div className="selected-photo">
-            <img className="animated hide" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
+          <div className="selected-photo animated hide">
+            <div className="selected-photo-overlay"></div>
+            <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
           </div>
         </div>
     }
