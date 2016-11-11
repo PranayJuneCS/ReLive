@@ -64,6 +64,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <audio id="gum-local" controls autoPlay></audio>
         <AppBar active={this.state.page}/>
         <div className="content">
           {this.renderMainContent()}

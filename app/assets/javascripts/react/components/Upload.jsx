@@ -20,7 +20,7 @@ class UploadModal extends React.Component {
 
   componentDidMount() {
     $('ul.tabs#upload-modal-tabs').tabs();
-    $('.modal-trigger').leanModal({ 
+    $('.modal-trigger').leanModal({
       dismissible: false,
       complete: (event) => {
         this.props.refresh("#", false);
@@ -85,7 +85,7 @@ class UploadModal extends React.Component {
               </ul>
             </div>
 
-            
+
           </div>
 
           <div id="upload-photo" className="upload-modal-height">
