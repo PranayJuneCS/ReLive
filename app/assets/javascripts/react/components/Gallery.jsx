@@ -40,7 +40,7 @@ class Gallery extends React.Component {
 
     return (
       <div className="">
-        <div className="container">
+        <div className="container gallery">
 
           <div className="row">
 
