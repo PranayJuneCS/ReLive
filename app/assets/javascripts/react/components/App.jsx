@@ -55,7 +55,13 @@ class App extends React.Component {
 
     let content;
     if (this.state.page === "#") {
-      content = <Gallery photos={this.state.photos}/>
+      content = 
+        <div>
+          <Gallery photos={this.state.photos}/>
+          <div className="selected-photo">
+            <img className="animated hide" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
+          </div>
+        </div>
     }
 
     return content;
