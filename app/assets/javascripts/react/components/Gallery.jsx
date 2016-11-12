@@ -1,8 +1,13 @@
+const NEAREST_AIRPORT_URL = "https://api.sandbox.amadeus.com/v1.2/airports/nearest-relevant";
+const AMADEUS_KEY = "3nWhAi9MARcfnjux7wwghgixAjSuLJhe";
+
 class Gallery extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {photos: []}
+    this.state = {photos: [], latitude: '', longitude: '', src: '', dest: ''};
+
+    this.getLocation();
   }
 
   componentWillMount() {
@@ -13,15 +18,55 @@ class Gallery extends React.Component {
     this.setPhotos(nextProps);
   }
 
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+        this.getAirportFromCoords(true, this.state.latitude, this.state.longitude);
+      });
+    }
+  }
+
+  getAirportFromCoords(source, lat, longitude) {
+    $.ajax({
+      url: NEAREST_AIRPORT_URL,
+      data: { apikey: AMADEUS_KEY,
+              latitude: lat,
+              longitude: longitude
+            },
+      type: "GET",
+      success: (data) => {
+        if (data.length > 0) {
+          let code = data[0].airport;
+          if (source) {
+            this.setState({ src: code });
+          } else {
+            this.setState({ dest: code });
+          }
+        }
+      }
+    });
+  }
+
   setPhotos(props) {
     let photos = [[], [], [], []];
 
     counter = 0;
     for (let photo of props.photos) {
       let caption = photo.captions[0].text;
-      let card =  <PhotoCard key={counter} url={photo.url} caption={caption} />;
+      let card = <PhotoCard key={counter} url={photo.url} caption={caption} />;
       photos[counter % photos.length].push(card);
       counter += 1;
+      if (photo.latitude == null || photo.longitude == null) {
+        console.log("NULL LAT/LONG");
+        let lat = "21.1619";
+        let longitude = "-86.8515";
+      } else {
+        console.log(photo.latitude, photo.longitude);
+      }
     }
     this.setState({ photos: photos });
   }

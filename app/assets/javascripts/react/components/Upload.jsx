@@ -13,7 +13,6 @@ class UploadModal extends React.Component {
       caption: "",
       tags: []
     };
-
   }
 
   componentDidMount() {
@@ -29,11 +28,18 @@ class UploadModal extends React.Component {
   sendInfoToServer() {
     let tagStrings = this.getTagNames();
     let caption = $("#caption").val();
-    $.post(UPDATE_PHOTO_URL, { url: this.state.pic_url,
-                            caption: caption,
-                            tags: JSON.stringify(tagStrings)
-                          }, (data, status) => {
-      if (status === "success") {
+    $.ajax({
+      type: "POST",
+      url: UPDATE_PHOTO_URL,
+      data: {
+        url: this.state.pic_url,
+        caption: caption,
+        tags: JSON.stringify(tagStrings)
+      },
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: (data) => {
         console.log("successfully updated tags and caption");
         this.clearInfo();
         $('ul.tabs#nav-tabs').tabs('select_tab', '');
@@ -73,9 +79,16 @@ class UploadModal extends React.Component {
 
       let cloudURL = response.body.secure_url;
       if (cloudURL !== '') {
-        $.post(NEW_PHOTO_URL, { url: cloudURL }, (data, status) => {
-
-          if (status === "success") {
+        $.ajax({
+          url: NEW_PHOTO_URL,
+          data: {
+            url: cloudURL
+          },
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          },
+          type: "POST",
+          success: (data) => {
             let tags = data.tags;
             let caption = data.captions[0].text;
             let actualTags = [];
@@ -92,6 +105,12 @@ class UploadModal extends React.Component {
             Materialize.updateTextFields();
           }
         });
+        // $.post(NEW_PHOTO_URL, { url: cloudURL }, (data, status) => {
+
+        //   if (status === "success") {
+            
+        //   }
+        // });
       }
     });
   }

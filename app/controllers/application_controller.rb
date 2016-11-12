@@ -54,7 +54,6 @@ class ApplicationController < ActionController::Base
 
   def update_photo
     photo = @user.photos.find_by(url: params[:url]);
-    puts JSON.parse(params[:tags])
     photo.update_caption_and_tags(params[:caption], JSON.parse(params[:tags]))
     render json: { "bleh": "bleh" }
   end
