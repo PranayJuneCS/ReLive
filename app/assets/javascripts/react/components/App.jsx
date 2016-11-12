@@ -1,4 +1,5 @@
-let ALL_PHOTOS_URL = "/photos"
+const ALL_PHOTOS_URL = "/photos"
+const ADD_CURR_LOCATION_URL = "/user/update_location"
 
 class App extends React.Component {
 
@@ -41,6 +42,33 @@ class App extends React.Component {
 
   componentWillMount() {
     this.requestContent(this.state.page, true);
+    this.getLocation();
+  }
+
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        
+        $.ajax({
+          url: ADD_CURR_LOCATION_URL,
+          data: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          },
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          },
+          type: "POST",
+          success: () => {
+            console.log("successful update of current location");
+          }
+        });
+      });
+    }
+  }
+
+  getAirportFromCoords(lat, longitude) {
+    
   }
 
   requestContent(page, refresh) {

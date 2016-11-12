@@ -1,11 +1,27 @@
+const GET_USER_AIRPORT_URL = "/user/airport";
+
 class PhotoCard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {selected: false};
+    this.state = {selected: false, userAirport: '', pictureAirport: this.props.airport };
+  }
+
+  getLocation() {
+    $.ajax({
+      url: GET_USER_AIRPORT_URL,
+      type: "GET",
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: (data) => {
+        this.setState({ userAirport: data.airport })
+      }
+    });
   }
 
   clicked() {
+    this.getLocation();
     this.setState({selected: true});
     $('.fade-bg').addClass('active');
     $(".container.gallery").addClass("push-back");

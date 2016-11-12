@@ -64,4 +64,12 @@ class ApplicationController < ActionController::Base
     render json: images.to_json(include: [:tags, :captions])
   end
 
+  def get_user_airport
+    render json: { airport: @user.airport }
+  end
+
+  def update_location
+    @user.update_location(params[:lat], params[:lng]);
+  end
+
 end
