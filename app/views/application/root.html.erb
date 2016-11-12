@@ -1,1 +1,128 @@
+<script type="text/javascript">
+
+    var client;
+    var request;
+
+    function useMic() {
+        return true;
+    }
+
+    function getMode() {
+        return Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionMode.shortPhrase;
+    }
+
+    function getKey() {
+        return "20b78ad78eae48bd827cb076730f9a43";
+    }
+
+    function getLanguage() {
+        return "en-us";
+    }
+
+    function clearText() {
+        document.getElementById("output").value = "";
+    }
+
+    function setText(text) {
+        document.getElementById("output").value += text;
+    }
+
+    function getLuisConfig() {
+        var appid = "063c5a5a-63da-4e46-acdf-4a00ac3977f0"
+        var subid = "2bc13320877b449da37c3cf21df1ecb9";
+        if (appid.length > 0 && subid.length > 0) {
+            return { appid: appid, subid: subid };
+        }
+        return null;
+    }
+
+    function start() {
+
+        var mode = getMode();
+        var luisCfg = getLuisConfig();
+        clearText();
+
+        if (useMic()) {
+            if (luisCfg) {
+                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClientWithIntent(
+                    getLanguage(),
+                    getKey(),
+                    luisCfg.appid,
+                    luisCfg.subid);
+            } else {
+                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClient(
+                    mode,
+                    getLanguage(),
+                    getKey());
+            }
+            client.startMicAndRecognition();
+            setTimeout(function () {
+                client.endMicAndRecognition();
+            }, 5000);
+
+        } else {
+
+            if (luisCfg) {
+                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createDataClientWithIntent(
+                    getLanguage(),
+                    getKey(),
+                    luisCfg.appid,
+                    luisCfg.subid);
+            } else {
+                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createDataClient(
+                    mode,
+                    getLanguage(),
+                    getKey());
+            }
+            request = new XMLHttpRequest();
+            request.open(
+                'GET',
+                (mode == Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionMode.shortPhrase) ? "whatstheweatherlike.wav" : "batman.wav",
+                true);
+            request.responseType = 'arraybuffer';
+            request.onload = function () {
+                if (request.status !== 200) {
+                    setText("unable to receive audio file");
+                } else {
+                    client.sendAudio(request.response, request.response.length);
+                }
+            };
+            request.send();
+
+        }
+
+        client.onPartialResponseReceived = function (response) {
+            setText(response);
+        }
+
+        client.onFinalResponseReceived = function (response) {
+            setText(JSON.stringify(response));
+        }
+
+        client.onIntentReceived = function (response) {
+            setText(response);
+        };
+    }
+</script>
+<tr>
+            <td align="right"><A href="https://www.microsoft.com/cognitive-services/en-us/sign-up" target="_blank">Subscription</A>:</td>
+            <td><input id="key" type="text" size="40"></td>
+        </tr>
+        <tr>
+            <td align="right">LUIS AppId:</td>
+            <td><input id="luis_appid" type="text" size="40"></td>
+        </tr>
+        <tr>
+            <td align="right">LUIS SubscriptionId:</td>
+            <td><input id="luis_subid" type="text" size="40"></td>
+        </tr>
+        <tr>
+            <td />
+            <td><button onclick="start()">Start</button></td>
+        </tr>
+        <tr><td/>
+            <td>
+                <textarea id="output" style='width:400px;height:200px'></textarea>
+            </td>
+        </tr>
 <div id="app"></div>

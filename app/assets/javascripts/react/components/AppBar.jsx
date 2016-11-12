@@ -2,7 +2,7 @@ class AppBar extends React.Component {
 
   constructor(props) {
     super(props);
-    
+
     $('body').on('click', 'a.upload', (event) => {
       $('a[href="#upload-photo"]').click(); // click tab
     });
@@ -51,7 +51,6 @@ class AppBar extends React.Component {
             </div>
           </nav>
         </div>
-        
 
         {/* Sidebar */}
         <Sidebar active={this.props.active}/>
