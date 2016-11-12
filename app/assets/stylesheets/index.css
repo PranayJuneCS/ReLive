@@ -24,6 +24,10 @@ body, html {
   color: white !important;
 }
 
+.dropzone .dz-preview .dz-image {
+  border-radius: 0px !important;
+}
+
 .column {
   flex-direction: column;
 }

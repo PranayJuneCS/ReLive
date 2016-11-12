@@ -70,6 +70,15 @@ class UploadModal extends React.Component {
     Materialize.updateTextFields();
 
     $('#finish-button').text("Cancel");
+    $('#city').val("");
+    let length = $('.chips-initial').material_chip('data').length;
+    $('.chips-initial').material_chip('data').splice(0, length);
+    $('div.chip').remove();
+    // $('.chips-initial').material_chip({
+    //   placeholder: 'Enter a tag',
+    //   secondaryPlaceholder: '+Tag',
+    //   data: [],
+    // });
   }
 
   onImageDrop(file) {
@@ -143,7 +152,7 @@ class UploadModal extends React.Component {
       $("#import-photo").addClass("disabled");
 
       $("#finish-button").text("Finish");
-      
+      console.log(this.state.tags);
       $('.chips-initial').material_chip({
         placeholder: 'Enter a tag',
         secondaryPlaceholder: '+Tag',
@@ -191,7 +200,7 @@ class UploadModal extends React.Component {
                   <input id="caption" type="text" value={this.state.caption} className="validate active white-text" />
                   <label htmlFor="caption" className="active">Description</label>
                 </div>
-                <div className="chips chips-initial chip-container white-text"></div>
+                <div className="chips-initial chip-container white-text"></div>
                 <div className="input-field col s12">
                   <input id="city" type="text" className="validate white-text" />
                   <label htmlFor="city" className="active">City</label>
