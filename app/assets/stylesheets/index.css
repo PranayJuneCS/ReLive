@@ -82,6 +82,32 @@ body, html {
   display: none;
 }
 
+
+.mic-bar-1 {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+}
+.mic-bar-2 {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+}
+.mic-bar-3 {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+}
+.mic-bar-4 {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+}
+.mic-bar-5 {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+}
 /*
  * ANIMATE.CSS *
  */

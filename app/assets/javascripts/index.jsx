@@ -25,15 +25,15 @@ $(() => {
   //   // audio.srcObject = stream;
 
   //   var options = {};
-  //   var speechEvents = hark(stream, options);
+    // var speechEvents = hark(stream, options);
 
-  //   speechEvents.on('speaking', function() {
-  //     console.log('speaking');
-  //   });
+    // speechEvents.on('speaking', function() {
+    //   console.log('speaking');
+    // });
 
-  //   speechEvents.on('stopped_speaking', () => {
-  //     console.log('stopped_speaking');
-  //   });
+    // speechEvents.on('stopped_speaking', () => {
+    //   console.log('stopped_speaking');
+    // });
 
   // }).catch((err) => {
   //   console.log(err.name + ": " + err.message); 

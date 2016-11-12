@@ -85,6 +85,7 @@ class App extends React.Component {
           {this.renderMainContent()}
         </div>
         <UploadModal refresh={this.requestContent.bind(this)} />
+        <MicrophoneModal />
       </div>
     );
   }
