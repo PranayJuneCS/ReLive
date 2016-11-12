@@ -56,8 +56,8 @@ class ApplicationController < ActionController::Base
 
   def update_photo
     photo = @user.photos.find_by(url: params[:url]);
-    puts JSON.parse(params[:tags])
     photo.update_caption_and_tags(params[:caption], JSON.parse(params[:tags]))
+    photo.add_city(params[:city])
     render json: { "bleh": "bleh" }
   end
 
@@ -84,6 +84,10 @@ class ApplicationController < ActionController::Base
     rescue SquareConnect::ApiError => e
       render json: {errors: e}
     end
+
+  def update_location
+    @user.update_location(params[:lat], params[:lng]);
+    render json: { airport: @user.airport }
   end
 
 end

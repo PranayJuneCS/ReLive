@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   get '/photos', to: 'application#get_photos'
   get '/card', to: 'application#card', via: :all
   post '/photo/new', to: 'application#new_photo'
+  post '/user/update_location', to: 'application#update_location'
   post '/photo/update', to: 'application#update_photo'
 end

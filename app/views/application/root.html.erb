@@ -34,6 +34,12 @@
                     $('.mic-modal-close').click();
                     $('#mic-output').text("");
                 }, 1000)
+            } else {
+                $('#mic-output').text("Uh Oh! Something went wrong.");
+                setTimeout(() => {
+                    $('.mic-modal-close').click();
+                    $('#mic-output').text("");
+                }, 2000)
             }
         }, 1000);
     }
@@ -70,6 +76,17 @@
             setTimeout(function () {
                 client.endMicAndRecognition();
                 $('.mic-loader').css({"display": "block"});
+                setTimeout(() => {
+                    if ($('.mic-loader').css('display') !== "none") {
+                        $(".mic-loader").css({"display": "none"});
+                        $('#mic-output').text("Uh Oh! Something went wrong.");
+                        setTimeout(() => {
+                            $('.mic-modal-close').click();
+                            $('#mic-output').text("");
+                        }, 2000)
+                    }
+
+                }, 8000)
             }, 4000);
 
         } else {

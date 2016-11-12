@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161009184721) do
+ActiveRecord::Schema.define(version: 20161112211538) do
 
   create_table "captions", force: :cascade do |t|
     t.integer  "photo_id"
@@ -20,11 +20,28 @@ ActiveRecord::Schema.define(version: 20161009184721) do
     t.index ["photo_id"], name: "index_captions_on_photo_id"
   end
 
+  create_table "faces", force: :cascade do |t|
+    t.string   "height"
+    t.string   "left"
+    t.string   "top"
+    t.string   "width"
+    t.string   "emotion"
+    t.string   "score"
+    t.integer  "photo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["photo_id"], name: "index_faces_on_photo_id"
+  end
+
   create_table "photos", force: :cascade do |t|
     t.string   "url"
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "latitude"
+    t.string   "longitude"
+    t.string   "airport"
+    t.string   "city"
     t.index ["user_id"], name: "index_photos_on_user_id"
   end
 
@@ -41,6 +58,7 @@ ActiveRecord::Schema.define(version: 20161009184721) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "uid"
+    t.string   "airport"
   end
 
 end
