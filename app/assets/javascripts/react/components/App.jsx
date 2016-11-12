@@ -55,7 +55,14 @@ class App extends React.Component {
 
     let content;
     if (this.state.page === "#") {
-      content = <Gallery photos={this.state.photos}/>
+      content =
+        <div>
+          <Gallery photos={this.state.photos}/>
+          <div className="selected-photo animated hide">
+            <div className="selected-photo-overlay"></div>
+            <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
+          </div>
+        </div>
     }
 
     return content;
@@ -73,6 +80,7 @@ class App extends React.Component {
           {this.renderMainContent()}
         </div>
         <UploadModal refresh={this.requestContent.bind(this)} />
+        <MicrophoneModal />
       </div>
     );
   }

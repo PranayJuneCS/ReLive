@@ -45,6 +45,10 @@
     clear: both;
   }
 
+  .col.small-padding {
+    padding: 0 0.20rem !important;
+  }
+
   .col {
     float: left;
     box-sizing: border-box;

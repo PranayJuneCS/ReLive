@@ -1,1 +1,113 @@
+<script type="text/javascript">
+
+    var client;
+    var request;
+
+    function useMic() {
+        return true;
+    }
+
+    function getMode() {
+        return Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionMode.shortPhrase;
+    }
+
+    function getKey() {
+        return "20b78ad78eae48bd827cb076730f9a43";
+    }
+
+    function getLanguage() {
+        return "en-us";
+    }
+
+    function clearText() {
+        document.getElementById("mic-output").value = "";
+    }
+
+    function setText(text) {
+        setTimeout(() => {
+            console.log(text);
+            $(".mic-loader").css({"display": "none"});
+            $('#mic-output').text(text.query + " | Entity: " + text.entities[0].entity);
+            setTimeout(() => {
+                $('.mic-modal-close').click();
+                $('#mic-output').text("");
+            }, 1000)
+        }, 1000);
+    }
+
+    function getLuisConfig() {
+        var appid = "063c5a5a-63da-4e46-acdf-4a00ac3977f0"
+        var subid = "2bc13320877b449da37c3cf21df1ecb9";
+        if (appid.length > 0 && subid.length > 0) {
+            return { appid: appid, subid: subid };
+        }
+        return null;
+    }
+
+    function start() {
+
+        var mode = getMode();
+        var luisCfg = getLuisConfig();
+        clearText();
+
+        if (useMic()) {
+            if (luisCfg) {
+                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClientWithIntent(
+                    getLanguage(),
+                    getKey(),
+                    luisCfg.appid,
+                    luisCfg.subid);
+            } else {
+                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClient(
+                    mode,
+                    getLanguage(),
+                    getKey());
+            }
+            client.startMicAndRecognition();
+            setTimeout(function () {
+                client.endMicAndRecognition();
+                $('.mic-loader').css({"display": "block"});
+            }, 4000);
+
+        } else {
+
+            if (luisCfg) {
+                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createDataClientWithIntent(
+                    getLanguage(),
+                    getKey(),
+                    luisCfg.appid,
+                    luisCfg.subid);
+            } else {
+                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createDataClient(
+                    mode,
+                    getLanguage(),
+                    getKey());
+            }
+            request = new XMLHttpRequest();
+            request.open(
+                'GET',
+                (mode == Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionMode.shortPhrase) ? "whatstheweatherlike.wav" : "batman.wav",
+                true);
+            request.responseType = 'arraybuffer';
+            request.onload = function () {
+                if (request.status !== 200) {
+                    setText("unable to receive audio file");
+                } else {
+                    client.sendAudio(request.response, request.response.length);
+                }
+            };
+            request.send();
+
+        }
+
+
+        client.onFinalResponseReceived = function (response) {
+            //setText(JSON.stringify(response));
+        }
+
+        client.onIntentReceived = function (response) {
+            setText(JSON.parse(response));
+        };
+    }
+</script>
 <div id="app"></div>
