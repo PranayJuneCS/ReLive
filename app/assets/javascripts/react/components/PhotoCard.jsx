@@ -2,7 +2,7 @@ class PhotoCard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {selected: false};
+    this.state = {selected: false, mounted: false};
   }
 
   clicked() {
@@ -18,10 +18,22 @@ class PhotoCard extends React.Component {
     window.pictureActive = true;
   }
 
+  componentDidMount() {
+    setInterval(() => {
+      var card = $('.photoCard.' + this.props.id);
+      if (card.hasClass('hide')) {
+        card.removeClass('hide').addClass('fadeInUp');
+        setTimeout(() => {
+          card.removeClass('fadeInUp');
+        }, 1000);
+      }
+    }, 500)
+  }
+
 	render() {
     return (
-      <div className="col small-padding s12 center" onClick={this.clicked.bind(this)}>
-        <a>
+      <div className={"photoCard col small-padding s12 center " + this.props.id + " animated hide"} onClick={this.clicked.bind(this)}>
+        <a href="#">
           <div className={"card small-margin hoverable " + (this.state.selected ? "selected" : "")}>
             <div className="card-image">
               <img src={this.props.url} />

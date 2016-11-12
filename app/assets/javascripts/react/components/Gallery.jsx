@@ -19,7 +19,8 @@ class Gallery extends React.Component {
     counter = 0;
     for (let photo of props.photos) {
       let caption = photo.captions[0].text;
-      let card =  <PhotoCard key={counter} url={photo.url} caption={caption} />;
+      console.log(photo);
+      let card =  <PhotoCard id={photo.id} key={counter} url={photo.url} caption={caption} />;
       photos[counter % photos.length].push(card);
       counter += 1;
     }

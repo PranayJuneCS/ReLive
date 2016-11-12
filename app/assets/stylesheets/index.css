@@ -106,6 +106,13 @@ body, html {
   display: none;
 }
 
+#mic-output {
+  color: white;
+}
+
+.no-search-line {
+  color: white;
+}
 
 .mic-bar-1 {
   width: 10px;
@@ -114,6 +121,7 @@ body, html {
   transform: translateY(-100%);
   margin-top: 50px;
   border-radius: 5px;
+  margin-left: 6px;
 }
 .mic-bar-2 {
   width: 10px;
@@ -122,6 +130,7 @@ body, html {
   transform: translateY(-100%);
   margin-top: 50px;
   border-radius: 5px;
+  margin-left: 6px;
 }
 .mic-bar-3 {
   width: 10px;
@@ -130,6 +139,7 @@ body, html {
   transform: translateY(-100%);
   margin-top: 50px;
   border-radius: 5px;
+  margin-left: 6px;
 }
 .mic-bar-4 {
   width: 10px;
@@ -138,6 +148,7 @@ body, html {
   transform: translateY(-100%);
   margin-top: 50px;
   border-radius: 5px;
+  margin-left: 6px;
 }
 .mic-bar-5 {
   width: 10px;
@@ -146,6 +157,7 @@ body, html {
   transform: translateY(-100%);
   margin-top: 50px;
   border-radius: 5px;
+  margin-left: 6px;
 }
 .mic-bar-6 {
   width: 10px;
@@ -154,6 +166,7 @@ body, html {
   transform: translateY(-100%);
   margin-top: 50px;
   border-radius: 5px;
+  margin-left: 6px;
 }
 
 .mic-visual {

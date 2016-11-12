@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  height: MyString
+  left: MyString
+  top: MyString
+  width: MyString
+  emotion: MyString
+  score: MyString
+  photo: one
+
+two:
+  height: MyString
+  left: MyString
+  top: MyString
+  width: MyString
+  emotion: MyString
+  score: MyString
+  photo: two
