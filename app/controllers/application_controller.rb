@@ -1,4 +1,6 @@
+require 'net/http'
 require 'json'
+require 'square_connect'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
@@ -62,6 +64,22 @@ class ApplicationController < ActionController::Base
   def get_photos
     images = Photo.where(user_id: @user.id)
     render json: images.to_json(include: [:tags, :captions])
+  end
+
+  def card
+    token = "sandbox-sq0atb-EV2AVhCoNwAZmYfXvGnvSQ"
+    tapi = SquareConnect::TransactionApi.new
+    lapi = SquareConnect::LocationApi.new
+    result = tapi.charge(token, lapi.list_locations(token).locations[0].id, {
+      idempotency_key: SecureRandom.uuid,
+      amount_money: { amount: params[:amount].to_i, currency: 'USD' },
+      card_nonce: params[:nonce]
+    })
+    if result.errors
+      render json: {errors: result.errors}
+    else
+      render json: {transaction: result.transaction}
+    end
   end
 
 end

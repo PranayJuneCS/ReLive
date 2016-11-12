@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/login', to: 'application#login'
   get '/privacy', to: 'application#privacy'
   get '/photos', to: 'application#get_photos'
+  get '/card', to: 'application#card', via: :all
   post '/photo/new', to: 'application#new_photo'
   post '/photo/update', to: 'application#update_photo'
 end
