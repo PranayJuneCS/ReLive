@@ -10,7 +10,8 @@ class App extends React.Component {
     this.state = {
       page: window.location.hash == "" ? "#" : window.location.hash,
       photos: [],
-      loading: false
+      loading: false,
+      currentLocation: ''
     };
 
     $('body').on('click', 'a.page-link', (event) => {
@@ -41,14 +42,13 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.requestContent(this.state.page, true);
     this.getLocation();
+    this.requestContent(this.state.page, true);
   }
 
   getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        
         $.ajax({
           url: ADD_CURR_LOCATION_URL,
           data: {
@@ -58,17 +58,14 @@ class App extends React.Component {
           headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
           },
+          async: false,
           type: "POST",
-          success: () => {
-            console.log("successful update of current location");
+          success: (data) => {
+            this.setState({ currentLocation: data.airport });
           }
         });
       });
     }
-  }
-
-  getAirportFromCoords(lat, longitude) {
-    
   }
 
   requestContent(page, refresh) {
@@ -98,7 +95,7 @@ class App extends React.Component {
     if (this.state.page === "#") {
       content =
         <div className="fade-bg">
-          <Gallery photos={this.state.isFiltering ? this.state.filterPictures : this.state.photos}/>
+          <Gallery userLocation={this.state.currentLocation} photos={this.state.isFiltering ? this.state.filterPictures : this.state.photos}/>
           <div className="selected-photo animated hide">
             <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
             <a className="selected-photo-close" href="#"><i className="fa fa-times" aria-hidden="true"></i></a>

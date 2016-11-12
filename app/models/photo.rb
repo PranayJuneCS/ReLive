@@ -35,24 +35,26 @@ class Photo < ApplicationRecord
   end
 
   def add_city(city)
-    self.city = city
+    if city
+      self.city = city
 
-    if self.city
-      response = Unirest.get "https://maps.googleapis.com/maps/api/geocode/json?",
-                             parameters: {
-                                key: Photo::GEOCODE_KEY,
-                                address: self.city
-                             }
-      self.latitude = response.body["results"][0]["geometry"]["location"]["lat"]
-      self.longitude = response.body["results"][0]["geometry"]["location"]["lng"]
+      if self.city
+        response = Unirest.get "https://maps.googleapis.com/maps/api/geocode/json?",
+                               parameters: {
+                                  key: Photo::GEOCODE_KEY,
+                                  address: self.city
+                               }
+        self.latitude = response.body["results"][0]["geometry"]["location"]["lat"]
+        self.longitude = response.body["results"][0]["geometry"]["location"]["lng"]
 
-      response = Unirest.get "https://api.sandbox.amadeus.com/v1.2/airports/nearest-relevant",
-                             parameters: {
-                                apikey: Photo::AMADEUS_KEY,
-                                latitude: self.latitude,
-                                longitude: self.longitude
-                             }
-      self.airport = response.body[0]["airport"]
+        response = Unirest.get "https://api.sandbox.amadeus.com/v1.2/airports/nearest-relevant",
+                               parameters: {
+                                  apikey: Photo::AMADEUS_KEY,
+                                  latitude: self.latitude,
+                                  longitude: self.longitude
+                               }
+        self.airport = response.body[0]["airport"]
+      end
     end
 
     self.save
