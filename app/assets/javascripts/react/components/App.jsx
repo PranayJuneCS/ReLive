@@ -4,6 +4,7 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
+    window.filterPictures = this.filterPictures.bind(this);
 
     this.state = {
       page: window.location.hash == "" ? "#" : window.location.hash,
@@ -57,7 +58,7 @@ class App extends React.Component {
     if (this.state.page === "#") {
       content =
         <div>
-          <Gallery photos={this.state.photos}/>
+          <Gallery photos={this.state.isFiltering ? this.state.filterPictures : this.state.photos}/>
           <div className="selected-photo animated hide">
             <div className="selected-photo-overlay"></div>
             <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
@@ -69,7 +70,22 @@ class App extends React.Component {
   }
 
   filterPictures(searchQuery) {
-    console.log("OMG " + searchQuery);
+    let filterPictures = [];
+    for (var photoObj of this.state.photos) {
+      var shouldKeep = false;
+      for (var captionObj of photoObj.captions) {
+
+        if (captionObj.text.toLowerCase().includes(searchQuery)) {
+          shouldKeep = true;
+        }
+      }
+
+      if (shouldKeep) {
+        filterPictures.push(photoObj);
+      }
+    }
+
+    this.setState({isFiltering: true, filterPictures: filterPictures});
   }
 
   render() {
