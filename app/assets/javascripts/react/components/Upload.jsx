@@ -10,12 +10,18 @@ class UploadModal extends React.Component {
       activeStep: 0,
       uploading: 'before',
       pic_url: null,
-      caption: ""
+      caption: "",
+      tags: []
     };
 
     $('body').on('click', 'a.modal-close', (event) => {
       $('ul.tabs#nav-tabs').tabs('select_tab', '');
-    })
+    });
+
+    $('body').on('click', 'a.modal-next', (event) => {
+      $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
+      $('#modal-action-button').text("Finish");
+    });
 
   }
 
@@ -26,16 +32,6 @@ class UploadModal extends React.Component {
       complete: (event) => {
         this.props.refresh("#", false);
       }
-    });
-    $('.chips').material_chip();
-    $('.chips-initial').material_chip({
-      data: [{
-        tag: 'Apple',
-      }, {
-        tag: 'Microsoft',
-      }, {
-        tag: 'Google',
-      }],
     });
   }
 
@@ -55,13 +51,32 @@ class UploadModal extends React.Component {
         $.post(NEW_PHOTO_URL, { url: cloudURL }, (data, status) => {
 
           if (status === "success") {
+            let tags = data.tags;
             let caption = data.captions[0].text;
-            this.setState({ upload: 'finished', pic_url: cloudURL, caption: caption });
+            let actualTags = [];
+            for (var tag of tags) {
+              let obj = {};
+              obj.tag = tag.text;
+              actualTags.push(obj);
+            }
+            this.setState({
+              upload: 'finished',
+              pic_url: cloudURL,
+              caption: caption,
+              tags: actualTags });
             Materialize.updateTextFields();
           }
         });
       }
     });
+  }
+
+  getTagNames() {
+    let list = [];
+    for (var object of $('.chips-initial').material_chip('data')) {
+      list.push(object.tag);
+    }
+    return list;
   }
 
   status() {
@@ -73,6 +88,14 @@ class UploadModal extends React.Component {
       );
     } else if (this.state.upload == 'finished') {
       $("#edit-confirm").removeClass('disabled');
+      Materialize.updateTextFields();
+      $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
+      $('#modal-action-button').text("Finish");
+      $('.chips-initial').material_chip({
+        placeholder: 'Enter a tag',
+        secondaryPlaceholder: '+Tag',
+        data: this.state.tags,
+      });
       return (
         <div>
           <p>Finished!</p>
@@ -92,7 +115,7 @@ class UploadModal extends React.Component {
           <div className="row">
             <div className="col s12">
               <ul id="upload-modal-tabs" className="tabs">
-                <li className="tab col s1"><a href="#upload-photo">Import Photo</a></li>
+                <li id="import-photo" className="tab col s1"><a href="#upload-photo">Import Photo</a></li>
                 <li id="edit-confirm" className="tab col s1 disabled"><a href="#edit-photo">Edit & Confirm</a></li>
               </ul>
             </div>
@@ -115,7 +138,7 @@ class UploadModal extends React.Component {
                   <input id="caption" type="text" value={this.state.caption} className="validate active" />
                   <label htmlFor="caption" className="active">Description</label>
                 </div>
-                <div className="chips chips-initial"></div>
+                <div className="chips chips-initial chip-container"></div>
               </div>
             </div>
           </div>
@@ -124,7 +147,7 @@ class UploadModal extends React.Component {
 
         </div>
         <div className="modal-footer">
-          <a href="#" className="modal-action waves-effect waves-green btn-flat ">Next</a>
+          <a id="modal-action-button" href="#" className="modal-action modal-next waves-effect waves-green btn-flat "></a>
           <a href="#" className="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
         </div>
       </div>

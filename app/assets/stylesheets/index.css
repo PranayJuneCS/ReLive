@@ -33,6 +33,10 @@ body, html {
   width: 100%;
 }
 
+.chip-container {
+  padding-top: 70px;
+}
+
 .custom-carousel {
   position: absolute !important;
   bottom: 0 !important;
