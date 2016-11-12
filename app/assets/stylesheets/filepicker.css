@@ -4,13 +4,14 @@
 }
 
 div.filepicker {
+    color: white;
     text-align: center;
     padding: 15px;
-    background-color: white;
+    background-color: rgb(20, 31, 50);
     border-radius: 5px;
     min-height: 60px;
     height: 100%;
-    border: 2px dashed #0087F7;
+    border: 1px dashed white;
     max-width: 1000px;
     display: flex;
     align-items: center;

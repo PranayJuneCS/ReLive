@@ -164,10 +164,10 @@ class UploadModal extends React.Component {
               </div>
               <div className="col s5">
                 <div className="input-field col s12">
-                  <input id="caption" type="text" value={this.state.caption} className="validate active" />
+                  <input id="caption" type="text" value={this.state.caption} className="validate active white-text" />
                   <label htmlFor="caption" className="active">Description</label>
                 </div>
-                <div className="chips chips-initial chip-container"></div>
+                <div className="chips chips-initial chip-container white-text"></div>
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@ class UploadModal extends React.Component {
 
         </div>
         <div className="modal-footer">
-          <a id="finish-button" href="#" className="modal-action modal-close waves-effect waves-green btn-flat hide">Finish</a>
+          <a id="finish-button" href="#" className="white-text modal-action modal-close waves-effect waves-green btn-flat hide">Finish</a>
         </div>
       </div>
     );

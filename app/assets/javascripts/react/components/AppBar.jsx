@@ -41,11 +41,11 @@ class AppBar extends React.Component {
                   </div>
                 </div>
                   <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
-                  <a href="#" className="brand-logo">Filterz {/*<em style={{fontSize: "14px"}}>CalHacks 3.0</em>*/}</a>
+                  <a href="#" className="brand-logo">Relive {/*<em style={{fontSize: "14px"}}>CalHacks 3.0</em>*/}</a>
                 </div>
                 <div className="input-field col s7 center">
                   <input id="search" type="text" className="no-search-line" required placeholder="Search" />
-                  <label htmlFor="search"><i className="material-icons">search</i></label>
+                  <label htmlFor="search"><i className="search-appbar-icon material-icons">search</i></label>
                 </div>
                 <div className="col s1 center">
                   <a id="#modal1" href="#modal1" onClick={window.start} className="nav-anchor upload modal-trigger-mic"><i className="material-icons">mic</i></a>

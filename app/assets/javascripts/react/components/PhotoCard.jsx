@@ -7,12 +7,15 @@ class PhotoCard extends React.Component {
 
   clicked() {
     this.setState({selected: true});
+    $('.fade-bg').addClass('active');
     $(".container.gallery").addClass("push-back");
     setTimeout(function(comp) {
-          $(".selected-photo").removeClass("hide").addClass("fadeIn");
+          $(".selected-photo").removeClass("hide").removeClass("fadeOut").addClass("fadeIn");
           $(".selected-photo img").attr('src', comp[0].props.url);
           $(".selected-photo img").css({"top": $('body').scrollTop() + (screen.height / 2) - 100, left: screen.width / 2});
+          $(".selected-photo-close").css({"top": $('body').scrollTop() - ($(".selected-photo img").height() / 2) + (screen.height / 2) - 100, left: screen.width / 2 - ($(".selected-photo img").width() / 2)});
     }, 150, [this])
+    window.pictureActive = true;
   }
 
 	render() {

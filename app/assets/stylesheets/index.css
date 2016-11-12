@@ -2,6 +2,14 @@
   text-align: center
 }
 
+.white-text {
+  color: white;
+}
+
+html {
+  background-color: black;
+}
+
 body, html {
   height: 100%;
   margin: 0;
@@ -37,6 +45,8 @@ body, html {
   transform-origin-z: initial;
   transition-property: all;
   -webkit-transition-property: all;
+  transition-duration: 380ms;
+  transition-delay: 20ms;
 }
 
 .content {
@@ -49,8 +59,6 @@ body, html {
 
 .container.gallery.push-back {
   -webkit-transform: rotateX(14deg) translateZ(-200px);
-  transition-duration: 380ms;
-  transition-delay: 20ms;
 }
 
 .container.push-back{
@@ -61,6 +69,14 @@ body, html {
   min-height: 100%;
 }
 
+.selected-photo-close {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 30001;
+  color: #6d676e;
+  font-size: 25px
+}
+
 .selected-photo img {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -68,6 +84,14 @@ body, html {
   max-width: 800px;
 }
 
+.fade-bg {
+  background-color: rgb(20, 31, 41);
+}
+
+.fade-bg.active {
+  /*background-color: rgba(20, 31, 41, 0.8);*/
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(20, 31, 41, 0.1)); /* Standard syntax */;
+}
 
 .selected-photo-overlay {
   position: absolute;
@@ -280,7 +304,7 @@ body, html {
   width: 50px;
   height: 50px;
   border-radius: 60px;
-  border: 2px solid #3c546a;
+  border: 2px solid white;
   transform-style: preserve-3d;
 }
 
@@ -300,6 +324,10 @@ body, html {
 }
 .atom .electron:nth-child(4) {
   animation: rotate-circle-4 4s linear infinite;
+}
+
+.search-appbar-icon {
+  color: white !important;
 }
 
 
@@ -2480,7 +2508,11 @@ body, html {
 }
 
 nav .input-field label i {
-  color: black !important;
+  color: white !important;
+}
+
+.filepicker {
+  margin: 0 auto;
 }
 
 .chip-container {

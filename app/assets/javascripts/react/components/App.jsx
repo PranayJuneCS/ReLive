@@ -25,6 +25,18 @@ class App extends React.Component {
       return false;
     })
 
+    $('body').on('click', ".selected-photo-close", (event) => {
+      if (window.pictureActive) {
+        this.setState({selected: false});
+        $(".selected-photo").removeClass("fadeIn").addClass("fadeOut");
+        setTimeout(function(comp) {
+          $(".container.gallery").removeClass("push-back");
+          $(".selected-photo").addClass('hide');
+        }, 350, [this])
+        window.pictureActive = false;
+      }
+    });
+
   }
 
   componentWillMount() {
@@ -57,11 +69,11 @@ class App extends React.Component {
     let content;
     if (this.state.page === "#") {
       content =
-        <div>
+        <div className="fade-bg">
           <Gallery photos={this.state.isFiltering ? this.state.filterPictures : this.state.photos}/>
           <div className="selected-photo animated hide">
-            <div className="selected-photo-overlay"></div>
             <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
+            <a className="selected-photo-close" href="#"><i className="fa fa-times" aria-hidden="true"></i></a>
           </div>
         </div>
     }
@@ -70,22 +82,27 @@ class App extends React.Component {
   }
 
   filterPictures(searchQuery) {
-    let filterPictures = [];
-    for (var photoObj of this.state.photos) {
-      var shouldKeep = false;
-      for (var captionObj of photoObj.captions) {
-
-        if (captionObj.text.toLowerCase().includes(searchQuery)) {
-          shouldKeep = true;
-        }
-      }
-
-      if (shouldKeep) {
-        filterPictures.push(photoObj);
-      }
+    if (searchQuery == "") {
+      this.setState({isFiltering: false});
+      return;
     }
+    var options = {
+      caseSensitive: true,
+      shouldSort: true,
+      tokenize: true,
+      threshold: 0.25,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      keys: [
+        "captions.text",
+        "tags.text"
+      ]
+    };
+    var fuse = new Fuse(this.state.photos, options)
+    var result = fuse.search(searchQuery);
 
-    this.setState({isFiltering: true, filterPictures: filterPictures});
+    this.setState({isFiltering: true, filterPictures: result});
   }
 
   render() {

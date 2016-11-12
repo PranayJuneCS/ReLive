@@ -33,11 +33,11 @@
 /* 1. Colors
    ========================================================================== */
 
-$primary-color: color("grey", "lighten-5") !default;
+$primary-color: rgb(20, 31, 41) !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
 $primary-color-dark: darken($primary-color, 15%) !default;
 
-$secondary-color: color("blue", "darken-2") !default;
+$secondary-color: rgb(255, 255, 255) !default;
 $secondary-color-light: lighten($secondary-color, 25%) !default;
 $secondary-color-dark: darken($secondary-color, 25%) !default;
 $success-color: color("green", "base") !default;
@@ -108,7 +108,7 @@ $collapsible-border-color: #ddd !default;
 /* 6. Chips
    ========================================================================== */
 
-$chip-bg-color: #e4e4e4 !default;
+$chip-bg-color: gray !default;
 $chip-border-color: #9e9e9e !default;
 $chip-selected-color: #26a69a !default;
 $chip-margin: 5px !default;
@@ -253,7 +253,7 @@ $spinner-default-color: $secondary-color !default;
    ========================================================================== */
 
 $tabs-underline-color: $secondary-color !default;
-$tabs-text-color: #000 !default;
+$tabs-text-color: white !default;
 $tabs-bg-color: $primary-color !default;
 
 
