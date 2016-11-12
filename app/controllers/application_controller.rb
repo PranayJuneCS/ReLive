@@ -84,6 +84,7 @@ class ApplicationController < ActionController::Base
     rescue SquareConnect::ApiError => e
       render json: {errors: e}
     end
+  end
 
   def update_location
     @user.update_location(params[:lat], params[:lng]);
