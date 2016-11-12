@@ -20,6 +20,14 @@ body, html {
   justify-content: center;
 }
 
+.chips .input {
+  color: white !important;
+}
+
+.dropzone .dz-preview .dz-image {
+  border-radius: 0px !important;
+}
+
 .column {
   flex-direction: column;
 }
@@ -72,7 +80,7 @@ body, html {
 .selected-photo-close {
   position: absolute;
   transform: translate(-50%, -50%);
-  z-index: 30001;
+  z-index: 3000001;
   color: #6d676e;
   font-size: 25px
 }

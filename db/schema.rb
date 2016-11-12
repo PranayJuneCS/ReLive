@@ -38,6 +38,10 @@ ActiveRecord::Schema.define(version: 20161112211538) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "latitude"
+    t.string   "longitude"
+    t.string   "airport"
+    t.string   "city"
     t.index ["user_id"], name: "index_photos_on_user_id"
   end
 
@@ -54,6 +58,7 @@ ActiveRecord::Schema.define(version: 20161112211538) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "uid"
+    t.string   "airport"
   end
 
 end

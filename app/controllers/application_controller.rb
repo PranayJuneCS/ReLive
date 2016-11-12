@@ -54,14 +54,19 @@ class ApplicationController < ActionController::Base
 
   def update_photo
     photo = @user.photos.find_by(url: params[:url]);
-    puts JSON.parse(params[:tags])
     photo.update_caption_and_tags(params[:caption], JSON.parse(params[:tags]))
+    photo.add_city(params[:city])
     render json: { "bleh": "bleh" }
   end
 
   def get_photos
     images = Photo.where(user_id: @user.id)
     render json: images.to_json(include: [:tags, :captions])
+  end
+
+  def update_location
+    @user.update_location(params[:lat], params[:lng]);
+    render json: { airport: @user.airport }
   end
 
 end

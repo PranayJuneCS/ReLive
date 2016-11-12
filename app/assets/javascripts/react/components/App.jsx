@@ -1,4 +1,5 @@
-let ALL_PHOTOS_URL = "/photos"
+const ALL_PHOTOS_URL = "/photos"
+const ADD_CURR_LOCATION_URL = "/user/update_location"
 
 class App extends React.Component {
 
@@ -9,7 +10,8 @@ class App extends React.Component {
     this.state = {
       page: window.location.hash == "" ? "#" : window.location.hash,
       photos: [],
-      loading: false
+      loading: false,
+      currentLocation: ''
     };
 
     $('body').on('click', 'a.page-link', (event) => {
@@ -25,7 +27,7 @@ class App extends React.Component {
       return false;
     })
 
-    $('body').on('click', ".selected-photo-close", (event) => {
+    $('body').on('click', "a.selected-photo-close", (event) => {
       if (window.pictureActive) {
         this.setState({selected: false});
         $(".selected-photo").removeClass("fadeIn").addClass("fadeOut");
@@ -40,7 +42,30 @@ class App extends React.Component {
   }
 
   componentWillMount() {
+    this.getLocation();
     this.requestContent(this.state.page, true);
+  }
+
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        $.ajax({
+          url: ADD_CURR_LOCATION_URL,
+          data: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          },
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          },
+          async: false,
+          type: "POST",
+          success: (data) => {
+            this.setState({ currentLocation: data.airport });
+          }
+        });
+      });
+    }
   }
 
   requestContent(page, refresh) {
@@ -70,7 +95,7 @@ class App extends React.Component {
     if (this.state.page === "#") {
       content =
         <div className="fade-bg">
-          <Gallery photos={this.state.isFiltering ? this.state.filterPictures : this.state.photos}/>
+          <Gallery userLocation={this.state.currentLocation} photos={this.state.isFiltering ? this.state.filterPictures : this.state.photos}/>
           <div className="selected-photo animated hide">
             <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
             <a className="selected-photo-close" href="#"><i className="fa fa-times" aria-hidden="true"></i></a>
