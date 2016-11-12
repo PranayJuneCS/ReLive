@@ -96,7 +96,12 @@ class UploadModal extends React.Component {
           type: "POST",
           success: (data) => {
             let tags = data.tags;
-            let caption = data.captions[0].text;
+            let caption;
+            if (data.captions[0]) {
+              caption = data.captions[0].text;
+            } else {
+              caption = "";
+            }
             let actualTags = [];
             for (var tag of tags) {
               let obj = {};

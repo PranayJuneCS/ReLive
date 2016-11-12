@@ -19,7 +19,7 @@ class Gallery extends React.Component {
 
     counter = 0;
     for (let photo of props.photos) {
-      let caption = photo.captions[0].text;
+      let caption = photo.captions[0] ? photo.captions[0].text : "";
       let card = <PhotoCard
                     key={counter}
                     userLocation={props.userLocation}
