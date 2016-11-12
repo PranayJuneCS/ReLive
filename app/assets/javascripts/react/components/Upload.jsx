@@ -1,27 +1,33 @@
 const CLOUDINARY_UPLOAD_PRESET = 'yd1pwftm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/laucity/upload';
-const NEW_PHOTO_URL = '/photo/new'
+const NEW_PHOTO_URL = '/photo/new';
+const UPDATE_PHOTO_URL = '/photo/update';
 
 class UploadModal extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 0,
-      uploading: 'before',
+      upload: 'before',
       pic_url: null,
       caption: "",
       tags: []
     };
 
-    $('body').on('click', 'a.modal-close', (event) => {
-      $('ul.tabs#nav-tabs').tabs('select_tab', '');
-    });
+    // $('body').on('click', 'a.modal-close', (event) => {
+    //   console.log(!$('#cancel-button').hasClass("disabled"));
+    //   if (!$('#cancel-button').hasClass("disabled")) {
+    //     $('ul.tabs#nav-tabs').tabs('select_tab', '');
+    //   }
+    // });
 
-    $('body').on('click', 'a.modal-next', (event) => {
-      $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
-      $('#modal-action-button').text("Finish");
-    });
+    // $('body').on('click', 'a.modal-next', (event) => {
+    //   if (!$('#finish-button').hasClass("disabled")) {
+    //     this.sendInfoToServer();
+    //     this.clearInfo();
+    //     $('ul.tabs#nav-tabs').tabs('select_tab', '');
+    //   }
+    // });
 
   }
 
@@ -30,9 +36,43 @@ class UploadModal extends React.Component {
     $('.modal-trigger').leanModal({
       dismissible: false,
       complete: (event) => {
+        this.sendInfoToServer();
+      }
+    });
+  }
+
+  sendInfoToServer() {
+    let tagStrings = this.getTagNames();
+    let caption = $("#caption").val();
+    $.post(UPDATE_PHOTO_URL, { url: this.state.pic_url,
+                            caption: caption,
+                            tags: JSON.stringify(tagStrings)
+                          }, (data, status) => {
+      if (status === "success") {
+        console.log("successfully updated tags and caption");
+        this.clearInfo();
+        $('ul.tabs#nav-tabs').tabs('select_tab', '');
         this.props.refresh("#", false);
       }
     });
+  }
+
+  clearInfo() {
+    this.setState({
+      upload: 'before',
+      pic_url: null,
+      caption: "",
+      tags: []
+    });
+
+    console.log(this.state);
+    $("#import-photo").removeClass("disabled");
+    $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'import-photo');
+
+    $("#edit-confirm").addClass('disabled');
+    Materialize.updateTextFields();
+    
+    $('#finish-button').addClass("hide");
   }
 
   onImageDrop(file) {
@@ -88,9 +128,13 @@ class UploadModal extends React.Component {
       );
     } else if (this.state.upload == 'finished') {
       $("#edit-confirm").removeClass('disabled');
-      Materialize.updateTextFields();
+
       $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
-      $('#modal-action-button').text("Finish");
+      Materialize.updateTextFields();
+      $("#import-photo").addClass("disabled");
+
+      $('#finish-button').removeClass("hide");
+      
       $('.chips-initial').material_chip({
         placeholder: 'Enter a tag',
         secondaryPlaceholder: '+Tag',
@@ -147,8 +191,7 @@ class UploadModal extends React.Component {
 
         </div>
         <div className="modal-footer">
-          <a id="modal-action-button" href="#" className="modal-action modal-next waves-effect waves-green btn-flat "></a>
-          <a href="#" className="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+          <a id="finish-button" href="#" className="modal-action modal-close waves-effect waves-green btn-flat hide">Finish</a>
         </div>
       </div>
     );
