@@ -70,15 +70,19 @@ class ApplicationController < ActionController::Base
     token = "sandbox-sq0atb-EV2AVhCoNwAZmYfXvGnvSQ"
     tapi = SquareConnect::TransactionApi.new
     lapi = SquareConnect::LocationApi.new
-    result = tapi.charge(token, lapi.list_locations(token).locations[0].id, {
-      idempotency_key: SecureRandom.uuid,
-      amount_money: { amount: params[:amount].to_i, currency: 'USD' },
-      card_nonce: params[:nonce]
-    })
-    if result.errors
-      render json: {errors: result.errors}
-    else
-      render json: {transaction: result.transaction}
+    begin
+      result = tapi.charge(token, lapi.list_locations(token).locations[0].id, {
+        idempotency_key: SecureRandom.uuid,
+        amount_money: { amount: params[:amount].to_i, currency: 'USD' },
+        card_nonce: params[:nonce]
+      })
+      if result.errors
+        render json: {errors: result.errors}
+      else
+        render json: {transaction: result.transaction}
+      end
+    rescue SquareConnect::ApiError => e
+      render json: {errors: e}
     end
   end
 
