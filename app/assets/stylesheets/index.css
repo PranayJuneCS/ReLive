@@ -29,6 +29,10 @@ body, html {
   padding: 2rem;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .custom-carousel {
   position: absolute !important;
   bottom: 0 !important;

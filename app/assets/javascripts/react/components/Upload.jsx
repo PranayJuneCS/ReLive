@@ -9,7 +9,8 @@ class UploadModal extends React.Component {
     this.state = {
       activeStep: 0,
       uploading: 'before',
-      pic_url: null
+      pic_url: null,
+      caption: ""
     };
 
     $('body').on('click', 'a.modal-close', (event) => {
@@ -25,6 +26,16 @@ class UploadModal extends React.Component {
       complete: (event) => {
         this.props.refresh("#", false);
       }
+    });
+    $('.chips').material_chip();
+    $('.chips-initial').material_chip({
+      data: [{
+        tag: 'Apple',
+      }, {
+        tag: 'Microsoft',
+      }, {
+        tag: 'Google',
+      }],
     });
   }
 
@@ -44,9 +55,9 @@ class UploadModal extends React.Component {
         $.post(NEW_PHOTO_URL, { url: cloudURL }, (data, status) => {
 
           if (status === "success") {
-            caption = data.captions[0]
-
-            this.setState({ upload: 'finished', pic_url: cloudURL });
+            let caption = data.captions[0].text;
+            this.setState({ upload: 'finished', pic_url: cloudURL, caption: caption });
+            Materialize.updateTextFields();
           }
         });
       }
@@ -61,6 +72,7 @@ class UploadModal extends React.Component {
         </div>
       );
     } else if (this.state.upload == 'finished') {
+      $("#edit-confirm").removeClass('disabled');
       return (
         <div>
           <p>Finished!</p>
@@ -81,7 +93,7 @@ class UploadModal extends React.Component {
             <div className="col s12">
               <ul id="upload-modal-tabs" className="tabs">
                 <li className="tab col s1"><a href="#upload-photo">Import Photo</a></li>
-                <li className="tab col s1 disabled"><a href="#edit-photo">Edit & Confirm</a></li>
+                <li id="edit-confirm" className="tab col s1 disabled"><a href="#edit-photo">Edit & Confirm</a></li>
               </ul>
             </div>
 
@@ -93,8 +105,19 @@ class UploadModal extends React.Component {
             {this.status()}
           </div>
 
-          <div id="edit-photo" className="col s12">
-            <p>yo</p>
+          <div id="edit-photo">
+            <div className="row">
+              <div className="col s7">
+                <img className="full-width" src={this.state.pic_url} />
+              </div>
+              <div className="col s5">
+                <div className="input-field col s12">
+                  <input id="caption" type="text" value={this.state.caption} className="validate active" />
+                  <label htmlFor="caption" className="active">Description</label>
+                </div>
+                <div className="chips chips-initial"></div>
+              </div>
+            </div>
           </div>
 
 
