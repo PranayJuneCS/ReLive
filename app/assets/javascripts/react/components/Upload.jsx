@@ -34,7 +34,8 @@ class UploadModal extends React.Component {
       data: {
         url: this.state.pic_url,
         caption: caption,
-        tags: JSON.stringify(tagStrings)
+        tags: JSON.stringify(tagStrings),
+        city: $("#city").val()
       },
       headers: {
         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -56,7 +57,6 @@ class UploadModal extends React.Component {
       tags: []
     });
 
-    console.log(this.state);
     $("#import-photo").removeClass("disabled");
     $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'import-photo');
 
@@ -82,8 +82,7 @@ class UploadModal extends React.Component {
         $.ajax({
           url: NEW_PHOTO_URL,
           data: {
-            url: cloudURL,
-            city: "Cancun"
+            url: cloudURL
           },
           headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -182,6 +181,10 @@ class UploadModal extends React.Component {
                   <label htmlFor="caption" className="active">Description</label>
                 </div>
                 <div className="chips chips-initial chip-container white-text"></div>
+                <div className="input-field col s12">
+                  <input id="city" type="text" className="validate" />
+                  <label htmlFor="city" className="active">City</label>
+                </div>
               </div>
             </div>
           </div>

@@ -48,13 +48,14 @@ class ApplicationController < ActionController::Base
   end
 
   def new_photo
-    photo = Photo.create(url: params[:url], city: params[:city], user_id: @user.id)
-    render json: { "tags": photo.tags, "captions": photo.captions, "airport": photo.airport }
+    photo = Photo.create(url: params[:url], user_id: @user.id)
+    render json: { "tags": photo.tags, "captions": photo.captions }
   end
 
   def update_photo
     photo = @user.photos.find_by(url: params[:url]);
     photo.update_caption_and_tags(params[:caption], JSON.parse(params[:tags]))
+    photo.add_city(params[:city])
     render json: { "bleh": "bleh" }
   end
 

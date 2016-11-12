@@ -23,6 +23,19 @@ class Photo < ApplicationRecord
 
     caption = response.body["description"]["captions"]
     Caption.create(text: caption[0]["text"], photo_id: self.id)
+  end
+
+  def update_caption_and_tags(caption, tags)
+    my_caption = self.captions.find_by(photo_id: self.id)
+    my_caption.text = caption
+    self.tags.destroy_all
+    tags.length.times do |i|
+      Tag.create(text: tags[i], photo_id: self.id)
+    end
+  end
+
+  def add_city(city)
+    self.city = city
 
     if self.city
       response = Unirest.get "https://maps.googleapis.com/maps/api/geocode/json?",
@@ -43,14 +56,5 @@ class Photo < ApplicationRecord
     end
 
     self.save
-  end
-
-  def update_caption_and_tags(caption, tags)
-    my_caption = self.captions.find_by(photo_id: self.id)
-    my_caption.text = caption
-    self.tags.destroy_all
-    tags.length.times do |i|
-      Tag.create(text: tags[i], photo_id: self.id)
-    end
   end
 end
