@@ -14,21 +14,6 @@ class UploadModal extends React.Component {
       tags: []
     };
 
-    // $('body').on('click', 'a.modal-close', (event) => {
-    //   console.log(!$('#cancel-button').hasClass("disabled"));
-    //   if (!$('#cancel-button').hasClass("disabled")) {
-    //     $('ul.tabs#nav-tabs').tabs('select_tab', '');
-    //   }
-    // });
-
-    // $('body').on('click', 'a.modal-next', (event) => {
-    //   if (!$('#finish-button').hasClass("disabled")) {
-    //     this.sendInfoToServer();
-    //     this.clearInfo();
-    //     $('ul.tabs#nav-tabs').tabs('select_tab', '');
-    //   }
-    // });
-
   }
 
   componentDidMount() {

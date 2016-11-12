@@ -29,8 +29,17 @@ body, html {
   padding: 2rem;
 }
 
+.no-search-line {
+  box-shadow: none !important;
+  border-bottom: 0px !important;
+}
+
 .full-width {
   width: 100%;
+}
+
+nav .input-field label i {
+  color: black !important;
 }
 
 .chip-container {
