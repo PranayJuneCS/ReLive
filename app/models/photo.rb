@@ -68,7 +68,7 @@ class Photo < ApplicationRecord
   end
 
   def add_city(city)
-    if city
+    if city and not city.empty?
       self.city = city
 
       if self.city

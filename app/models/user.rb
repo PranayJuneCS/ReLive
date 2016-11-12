@@ -11,7 +11,9 @@ class User < ApplicationRecord
   						   	 latitude: lat,
   						   	 longitude: lng
   						   }
-  	self.airport = response.body[0]["airport"]
+    if response.body[0]
+  	  self.airport = response.body[0]["airport"]
+    end
   	self.save
   end
 end
