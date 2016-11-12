@@ -6,11 +6,20 @@ class AppBar extends React.Component {
     $('body').on('click', 'a.upload', (event) => {
       $('a[href="#upload-photo"]').click(); // click tab
     });
+
   }
 
   componentDidMount() {
     $('ul.tabs#nav-tabs').tabs();
     $('.button-collapse').sideNav({ closeOnClick: true });
+
+
+    $("#search").keypress((event) => {
+      if (event.which == 13) {
+       let searchText = $("#search").val();
+       this.props.filterPictures.call(null, searchText);
+      }
+    });
   }
 
   render() {
@@ -27,7 +36,7 @@ class AppBar extends React.Component {
                   <a href="#" className="brand-logo"><i className="material-icons">filter</i>Filterz {/*<em style={{fontSize: "14px"}}>CalHacks 3.0</em>*/}</a>
                 </div>
                 <div className="input-field col s6 center">
-                  <input id="search" type="text" className="no-search-line"required />
+                  <input id="search" type="text" className="no-search-line" required />
                   <label htmlFor="search"><i className="material-icons">search</i></label>
                 </div>
                 <div className="row hide-on-med-and-down">
