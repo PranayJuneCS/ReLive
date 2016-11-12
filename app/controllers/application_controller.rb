@@ -7,7 +7,10 @@ class ApplicationController < ActionController::Base
 
   # Before filter
   def get_info
-    @user = User.find_by(uid: session[:access_token])
+    @user = User.first
+    if @user.nil?
+      @user = User.create(name: "global")
+    end
   end
 
   # Render "/"
@@ -17,14 +20,6 @@ class ApplicationController < ActionController::Base
   def landing
     render file: "landing.htm.erb"
   end
-
-  def login
-    @user = User.first
-    if @user.nil?
-      @user = User.create(name: "global")
-    end
-  end
-
 
   def privacy
     render file: "privacypolicy.htm"
