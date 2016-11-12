@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   get '/privacy', to: 'application#privacy'
   get '/photos', to: 'application#get_photos'
   post '/photo/new', to: 'application#new_photo'
-
+  post '/photo/update', to: 'application#update_photo'
 end

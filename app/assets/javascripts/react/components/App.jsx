@@ -61,10 +61,14 @@ class App extends React.Component {
     return content;
   }
 
+  filterPictures(searchQuery) {
+    console.log("OMG " + searchQuery);
+  }
+
   render() {
     return (
       <div>
-        <AppBar active={this.state.page}/>
+        <AppBar filterPictures={this.filterPictures.bind(this)} active={this.state.page}/>
         <div className="content">
           {this.renderMainContent()}
         </div>

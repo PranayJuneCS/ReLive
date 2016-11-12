@@ -52,6 +52,13 @@ class ApplicationController < ActionController::Base
     render json: { "tags": photo.tags, "captions": photo.captions }
   end
 
+  def update_photo
+    photo = @user.photos.find_by(url: params[:url]);
+    puts JSON.parse(params[:tags])
+    photo.update_caption_and_tags(params[:caption], JSON.parse(params[:tags]))
+    render json: { "bleh": "bleh" }
+  end
+
   def get_photos
     images = Photo.where(user_id: @user.id)
     render json: images.to_json(include: [:tags, :captions])
