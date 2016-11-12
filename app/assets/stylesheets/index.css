@@ -162,6 +162,9 @@ body, html {
   display: none;
 }
 
+#search {
+  padding-left: 40px;
+}
 
 /* LOADER */
 @keyframes atom {
@@ -234,6 +237,22 @@ body, html {
   transform-style: preserve-3d;
 }
 
+.appbar-icon {
+  display: inline-block;
+  margin-right: 25px;
+}
+
+.atom.small {
+  margin-top: 16px;
+  display: inline-block;
+  margin-left: 0;
+  marting-right: 0;
+  width: 16px;
+  height: 16px;
+  perspective: 300px;
+  transform-style: preserve-3d;
+}
+
 .letter {
   position: absolute;
   top: 0;
@@ -263,6 +282,11 @@ body, html {
   border-radius: 60px;
   border: 2px solid #3c546a;
   transform-style: preserve-3d;
+}
+
+.atom.small .electron {
+  width: 30px;
+  height: 30px;
 }
 
 .atom .electron:nth-child(1) {

@@ -4,10 +4,9 @@ class MicrophoneModal extends React.Component {
   }
 
   componentDidMount() {
-    $('.modal-trigger').leanModal({
+    $('.modal-trigger-mic').leanModal({
       dismissible: false,
       complete: (event) => {
-        this.props.refresh("#", false);
       }
     });
   }
@@ -15,7 +14,6 @@ class MicrophoneModal extends React.Component {
   render() {
     return(
       <div>
-        <a id="#modal1" href="#modal1" onClick={window.start} className="nav-anchor upload modal-trigger">Microphone</a>
         <div id="modal1" className="modal">
           <div className="modal-content microphone-modal">
             <div className="mic-visual">
@@ -47,6 +45,9 @@ class MicrophoneModal extends React.Component {
               </div>
             </div>
             <p id="mic-output"></p>
+          </div>
+          <div className="modal-footer">
+            <a href="#" className="hide mic-modal-close modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
           </div>
         </div>
       </div>

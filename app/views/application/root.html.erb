@@ -28,6 +28,10 @@
             console.log(text);
             $(".mic-loader").css({"display": "none"});
             $('#mic-output').text(text.query + " | Entity: " + text.entities[0].entity);
+            setTimeout(() => {
+                $('.mic-modal-close').click();
+                $('#mic-output').text("");
+            }, 1000)
         }, 1000);
     }
 

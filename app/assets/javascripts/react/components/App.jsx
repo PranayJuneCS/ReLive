@@ -75,12 +75,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-<<<<<<< 478cbf3ab87ace199c06a65fd1cd049302dda0b9
         <AppBar filterPictures={this.filterPictures.bind(this)} active={this.state.page}/>
-=======
-        {/*<audio id="gum-local" controls autoPlay></audio>*/}
-        <AppBar active={this.state.page}/>
->>>>>>> working on audio
         <div className="content">
           {this.renderMainContent()}
         </div>

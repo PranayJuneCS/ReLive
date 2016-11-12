@@ -31,13 +31,24 @@ class AppBar extends React.Component {
           <nav>
             <div className="nav-wrapper container">
               <div className="row">
-                <div className="col s3">
-                  <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
-                  <a href="#" className="brand-logo"><i className="material-icons">filter</i>Filterz {/*<em style={{fontSize: "14px"}}>CalHacks 3.0</em>*/}</a>
+                <div className="col s1">
+                <div className="appbar-icon">
+                  <div className="atom small">
+                    <div className="electron"></div>
+                    <div className="electron"></div>
+                    <div className="electron"></div>
+                    <div className="electron"></div>
+                  </div>
                 </div>
-                <div className="input-field col s6 center">
-                  <input id="search" type="text" className="no-search-line" required />
+                  <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
+                  <a href="#" className="brand-logo">Filterz {/*<em style={{fontSize: "14px"}}>CalHacks 3.0</em>*/}</a>
+                </div>
+                <div className="input-field col s7 center">
+                  <input id="search" type="text" className="no-search-line" required placeholder="Search" />
                   <label htmlFor="search"><i className="material-icons">search</i></label>
+                </div>
+                <div className="col s1 center">
+                  <a id="#modal1" href="#modal1" onClick={window.start} className="nav-anchor upload modal-trigger-mic"><i className="material-icons">mic</i></a>
                 </div>
                 <div className="row hide-on-med-and-down">
                   <div className="right col s3">

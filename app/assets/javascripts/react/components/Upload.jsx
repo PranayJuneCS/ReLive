@@ -56,7 +56,7 @@ class UploadModal extends React.Component {
 
     $("#edit-confirm").addClass('disabled');
     Materialize.updateTextFields();
-    
+
     $('#finish-button').addClass("hide");
   }
 
