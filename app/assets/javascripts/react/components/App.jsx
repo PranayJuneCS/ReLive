@@ -10,7 +10,7 @@ class App extends React.Component {
       photos: [],
       loading: false
     };
-    
+
     $('body').on('click', 'a.page-link', (event) => {
       if (event.currentTarget.getAttribute("href") != this.state.page) {
         $('.content').fadeOut(100).delay(100).fadeIn(100);
@@ -57,14 +57,13 @@ class App extends React.Component {
     if (this.state.page === "#") {
       content = <Gallery photos={this.state.photos}/>
     }
-    
+
     return content;
   }
 
   render() {
     return (
       <div>
-        <audio id="gum-local" controls autoPlay></audio>
         <AppBar active={this.state.page}/>
         <div className="content">
           {this.renderMainContent()}
