@@ -27,7 +27,8 @@ class App extends React.Component {
       return false;
     })
 
-    $('body').on('click', ".selected-photo-close", (event) => {
+    $('body').on('click', "a.selected-photo-close", (event) => {
+      console.log("PRESSED BOY");
       if (window.pictureActive) {
         this.setState({selected: false});
         $(".selected-photo").removeClass("fadeIn").addClass("fadeOut");

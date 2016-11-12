@@ -20,7 +20,12 @@ class UploadModal extends React.Component {
     $('.modal-trigger').leanModal({
       dismissible: false,
       complete: (event) => {
-        this.sendInfoToServer();
+        if ($("#finish-button").text() == "Finish") {
+          this.sendInfoToServer();
+        } else {
+          $('ul.tabs#nav-tabs').tabs('select_tab', '');
+          this.props.refresh("#", false);
+        }
       }
     });
   }
@@ -28,6 +33,7 @@ class UploadModal extends React.Component {
   sendInfoToServer() {
     let tagStrings = this.getTagNames();
     let caption = $("#caption").val();
+    let city = $("#city").val();
     $.ajax({
       type: "POST",
       url: UPDATE_PHOTO_URL,
@@ -35,7 +41,7 @@ class UploadModal extends React.Component {
         url: this.state.pic_url,
         caption: caption,
         tags: JSON.stringify(tagStrings),
-        city: $("#city").val()
+        city: city
       },
       headers: {
         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -63,7 +69,7 @@ class UploadModal extends React.Component {
     $("#edit-confirm").addClass('disabled');
     Materialize.updateTextFields();
 
-    $('#finish-button').addClass("hide");
+    $('#finish-button').text("Cancel");
   }
 
   onImageDrop(file) {
@@ -131,7 +137,7 @@ class UploadModal extends React.Component {
       Materialize.updateTextFields();
       $("#import-photo").addClass("disabled");
 
-      $('#finish-button').removeClass("hide");
+      $("#finish-button").text("Finish");
       
       $('.chips-initial').material_chip({
         placeholder: 'Enter a tag',
@@ -182,7 +188,7 @@ class UploadModal extends React.Component {
                 </div>
                 <div className="chips chips-initial chip-container white-text"></div>
                 <div className="input-field col s12">
-                  <input id="city" type="text" className="validate" />
+                  <input id="city" type="text" className="validate white-text" />
                   <label htmlFor="city" className="active">City</label>
                 </div>
               </div>
@@ -193,7 +199,7 @@ class UploadModal extends React.Component {
 
         </div>
         <div className="modal-footer">
-          <a id="finish-button" href="#" className="white-text modal-action modal-close waves-effect waves-green btn-flat hide">Finish</a>
+          <a id="finish-button" href="#" className="white-text modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
         </div>
       </div>
     );
