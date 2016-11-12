@@ -10,7 +10,7 @@ class App extends React.Component {
       photos: [],
       loading: false
     };
-    
+
     $('body').on('click', 'a.page-link', (event) => {
       if (event.currentTarget.getAttribute("href") != this.state.page) {
         $('.content').fadeOut(100).delay(100).fadeIn(100);
@@ -55,27 +55,32 @@ class App extends React.Component {
 
     let content;
     if (this.state.page === "#") {
-      content = 
+      content =
         <div>
           <Gallery photos={this.state.photos}/>
-          <div className="selected-photo">
-            <img className="animated hide" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
+          <div className="selected-photo animated hide">
+            <div className="selected-photo-overlay"></div>
+            <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
           </div>
         </div>
     }
-    
+
     return content;
+  }
+
+  filterPictures(searchQuery) {
+    console.log("OMG " + searchQuery);
   }
 
   render() {
     return (
       <div>
-        <audio id="gum-local" controls autoPlay></audio>
-        <AppBar active={this.state.page}/>
+        <AppBar filterPictures={this.filterPictures.bind(this)} active={this.state.page}/>
         <div className="content">
           {this.renderMainContent()}
         </div>
         <UploadModal refresh={this.requestContent.bind(this)} />
+        <MicrophoneModal />
       </div>
     );
   }
