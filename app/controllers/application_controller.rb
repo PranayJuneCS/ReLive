@@ -18,11 +18,15 @@ class ApplicationController < ActionController::Base
 
   # Render "/"
   def root
-    if @user.nil?
-      redirect_to "https://api.instagram.com/oauth/authorize/?client_id=" + @@client_id + "&redirect_uri=" + @@redirect_uri + "&response_type=code"
-    end
+    # if @user.nil?
+    #   redirect_to '/landing'
+    # end
   end
 
+  def landing
+    @target = "https://api.instagram.com/oauth/authorize/?client_id=" + @@client_id + "&redirect_uri=" + @@redirect_uri + "&response_type=code"
+    render file: "landing.htm.erb"
+  end
 
   def login
     code = params[:code]
