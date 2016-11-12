@@ -20,11 +20,15 @@
     }
 
     function clearText() {
-        document.getElementById("output").value = "";
+        document.getElementById("mic-output").value = "";
     }
 
     function setText(text) {
-        document.getElementById("output").value += text;
+        setTimeout(() => {
+            console.log(text);
+            $(".mic-loader").css({"display": "none"});
+            $('#mic-output').text(text.query + " | Entity: " + text.entities[0].entity);
+        }, 1000);
     }
 
     function getLuisConfig() {
@@ -58,7 +62,8 @@
             client.startMicAndRecognition();
             setTimeout(function () {
                 client.endMicAndRecognition();
-            }, 5000);
+                $('.mic-loader').css({"display": "block"});
+            }, 4000);
 
         } else {
 
@@ -91,38 +96,14 @@
 
         }
 
-        client.onPartialResponseReceived = function (response) {
-            setText(response);
-        }
 
         client.onFinalResponseReceived = function (response) {
-            setText(JSON.stringify(response));
+            //setText(JSON.stringify(response));
         }
 
         client.onIntentReceived = function (response) {
-            setText(response);
+            setText(JSON.parse(response));
         };
     }
 </script>
-<tr>
-            <td align="right"><A href="https://www.microsoft.com/cognitive-services/en-us/sign-up" target="_blank">Subscription</A>:</td>
-            <td><input id="key" type="text" size="40"></td>
-        </tr>
-        <tr>
-            <td align="right">LUIS AppId:</td>
-            <td><input id="luis_appid" type="text" size="40"></td>
-        </tr>
-        <tr>
-            <td align="right">LUIS SubscriptionId:</td>
-            <td><input id="luis_subid" type="text" size="40"></td>
-        </tr>
-        <tr>
-            <td />
-            <td><button onclick="start()">Start</button></td>
-        </tr>
-        <tr><td/>
-            <td>
-                <textarea id="output" style='width:400px;height:200px'></textarea>
-            </td>
-        </tr>
 <div id="app"></div>
