@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root 'application#landing'
-  get '/root', to: 'application#root'
+  root 'application#root'
   get '/landing', to: 'application#landing'
   get '/login', to: 'application#login'
   get '/privacy', to: 'application#privacy'
