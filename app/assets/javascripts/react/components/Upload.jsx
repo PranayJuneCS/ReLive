@@ -13,7 +13,6 @@ class UploadModal extends React.Component {
       caption: "",
       tags: []
     };
-
   }
 
   componentDidMount() {
@@ -21,7 +20,12 @@ class UploadModal extends React.Component {
     $('.modal-trigger').leanModal({
       dismissible: false,
       complete: (event) => {
-        this.sendInfoToServer();
+        if ($("#finish-button").text() == "Finish") {
+          this.sendInfoToServer();
+        } else {
+          $('ul.tabs#nav-tabs').tabs('select_tab', '');
+          this.props.refresh("#", false);
+        }
       }
     });
   }
@@ -29,11 +33,20 @@ class UploadModal extends React.Component {
   sendInfoToServer() {
     let tagStrings = this.getTagNames();
     let caption = $("#caption").val();
-    $.post(UPDATE_PHOTO_URL, { url: this.state.pic_url,
-                            caption: caption,
-                            tags: JSON.stringify(tagStrings)
-                          }, (data, status) => {
-      if (status === "success") {
+    let city = $("#city").val();
+    $.ajax({
+      type: "POST",
+      url: UPDATE_PHOTO_URL,
+      data: {
+        url: this.state.pic_url,
+        caption: caption,
+        tags: JSON.stringify(tagStrings),
+        city: city
+      },
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: (data) => {
         console.log("successfully updated tags and caption");
         this.clearInfo();
         $('ul.tabs#nav-tabs').tabs('select_tab', '');
@@ -50,14 +63,22 @@ class UploadModal extends React.Component {
       tags: []
     });
 
-    console.log(this.state);
     $("#import-photo").removeClass("disabled");
     $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'import-photo');
 
     $("#edit-confirm").addClass('disabled');
     Materialize.updateTextFields();
 
-    $('#finish-button').addClass("hide");
+    $('#finish-button').text("Cancel");
+    $('#city').val("");
+    let length = $('.chips-initial').material_chip('data').length;
+    $('.chips-initial').material_chip('data').splice(0, length);
+    $('div.chip').remove();
+    // $('.chips-initial').material_chip({
+    //   placeholder: 'Enter a tag',
+    //   secondaryPlaceholder: '+Tag',
+    //   data: [],
+    // });
   }
 
   onImageDrop(file) {
@@ -73,11 +94,23 @@ class UploadModal extends React.Component {
 
       let cloudURL = response.body.secure_url;
       if (cloudURL !== '') {
-        $.post(NEW_PHOTO_URL, { url: cloudURL }, (data, status) => {
-
-          if (status === "success") {
+        $.ajax({
+          url: NEW_PHOTO_URL,
+          data: {
+            url: cloudURL
+          },
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          },
+          type: "POST",
+          success: (data) => {
             let tags = data.tags;
-            let caption = data.captions[0].text;
+            let caption;
+            if (data.captions[0]) {
+              caption = data.captions[0].text;
+            } else {
+              caption = "";
+            }
             let actualTags = [];
             for (var tag of tags) {
               let obj = {};
@@ -118,8 +151,8 @@ class UploadModal extends React.Component {
       Materialize.updateTextFields();
       $("#import-photo").addClass("disabled");
 
-      $('#finish-button').removeClass("hide");
-      
+      $("#finish-button").text("Finish");
+      console.log(this.state.tags);
       $('.chips-initial').material_chip({
         placeholder: 'Enter a tag',
         secondaryPlaceholder: '+Tag',
@@ -167,7 +200,11 @@ class UploadModal extends React.Component {
                   <input id="caption" type="text" value={this.state.caption} className="validate active white-text" />
                   <label htmlFor="caption" className="active">Description</label>
                 </div>
-                <div className="chips chips-initial chip-container white-text"></div>
+                <div className="chips-initial chip-container white-text"></div>
+                <div className="input-field col s12">
+                  <input id="city" type="text" className="validate white-text" />
+                  <label htmlFor="city" className="active">City</label>
+                </div>
               </div>
             </div>
           </div>
@@ -176,7 +213,7 @@ class UploadModal extends React.Component {
 
         </div>
         <div className="modal-footer">
-          <a id="finish-button" href="#" className="white-text modal-action modal-close waves-effect waves-green btn-flat hide">Finish</a>
+          <a id="finish-button" href="#" className="white-text modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
         </div>
       </div>
     );
