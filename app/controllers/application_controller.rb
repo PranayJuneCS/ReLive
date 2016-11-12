@@ -1,15 +1,9 @@
-require 'net/http'
 require 'json'
-require 'square_connect'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  before_action :get_info, :except => [:login]
-
-  @@client_id = "de0534bfebd644c6b8264da9c1cff6c6"
-  @@client_secret = "52176792ef1e4cb98f13cdbab2689c2e"
-  @@redirect_uri = Rails.env.development? ? "http://localhost:3000/login" : "https://filterz.herokuapp.com/login"
+  before_action :get_info
 
   # Before filter
   def get_info
@@ -18,36 +12,19 @@ class ApplicationController < ActionController::Base
 
   # Render "/"
   def root
-    # if @user.nil?
-    #   redirect_to '/landing'
-    # end
   end
 
   def landing
-    @target = "https://api.instagram.com/oauth/authorize/?client_id=" + @@client_id + "&redirect_uri=" + @@redirect_uri + "&response_type=code"
     render file: "landing.htm.erb"
   end
 
   def login
-    code = params[:code]
-    if !code.nil?
-      response = Unirest.post "https://api.instagram.com/oauth/access_token",
-                              parameters: {client_id: @@client_id,
-                                           client_secret: @@client_secret,
-                                           grant_type: 'authorization_code',
-                                           code: code,
-                                           redirect_uri: @@redirect_uri
-                                          }
-      user = response.body["user"]
-      token = response.body["access_token"]
-      if User.find_by(uid: token).nil?
-        User.create({ uid: token, name: user["full_name"] })
-      end
-      session[:access_token] = token
+    @user = User.first
+    if @user.nil?
+      @user = User.create(name: "global")
     end
-
-    redirect_to action: "root" and return
   end
+
 
   def privacy
     render file: "privacypolicy.htm"
