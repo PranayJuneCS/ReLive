@@ -82,7 +82,8 @@ class UploadModal extends React.Component {
         $.ajax({
           url: NEW_PHOTO_URL,
           data: {
-            url: cloudURL
+            url: cloudURL,
+            city: "Cancun"
           },
           headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -105,12 +106,6 @@ class UploadModal extends React.Component {
             Materialize.updateTextFields();
           }
         });
-        // $.post(NEW_PHOTO_URL, { url: cloudURL }, (data, status) => {
-
-        //   if (status === "success") {
-            
-        //   }
-        // });
       }
     });
   }

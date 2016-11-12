@@ -1,6 +1,8 @@
 require 'unirest'
 
 class Photo < ApplicationRecord
+  GEOCODE_KEY = "AIzaSyCQfdukndtwTf1_u1WXSeFXdM7QbA0dZRg"
+  AMADEUS_KEY = "3nWhAi9MARcfnjux7wwghgixAjSuLJhe"
   belongs_to :user
   has_many :tags
   has_many :captions
@@ -22,6 +24,25 @@ class Photo < ApplicationRecord
     caption = response.body["description"]["captions"]
     Caption.create(text: caption[0]["text"], photo_id: self.id)
 
+    if self.city
+      response = Unirest.get "https://maps.googleapis.com/maps/api/geocode/json?",
+                             parameters: {
+                                key: Photo::GEOCODE_KEY,
+                                address: self.city
+                             }
+      self.latitude = response.body["results"][0]["geometry"]["location"]["lat"]
+      self.longitude = response.body["results"][0]["geometry"]["location"]["lng"]
+
+      response = Unirest.get "https://api.sandbox.amadeus.com/v1.2/airports/nearest-relevant",
+                             parameters: {
+                                apikey: Photo::AMADEUS_KEY,
+                                latitude: self.latitude,
+                                longitude: self.longitude
+                             }
+      self.airport = response.body[0]["airport"]
+    end
+
+    self.save
   end
 
   def update_caption_and_tags(caption, tags)

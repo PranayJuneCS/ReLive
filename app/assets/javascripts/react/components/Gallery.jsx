@@ -62,8 +62,6 @@ class Gallery extends React.Component {
       counter += 1;
       if (photo.latitude == null || photo.longitude == null) {
         console.log("NULL LAT/LONG");
-        let lat = "21.1619";
-        let longitude = "-86.8515";
       } else {
         console.log(photo.latitude, photo.longitude);
       }
