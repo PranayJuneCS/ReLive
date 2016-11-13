@@ -59,6 +59,7 @@ class UploadModal extends React.Component {
   }
 
   clearInfo() {
+    this.addedChips = false;
     this.setState({
       upload: 'before',
       pic_url: null,
@@ -69,14 +70,14 @@ class UploadModal extends React.Component {
     $("#import-photo").removeClass("disabled");
     $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'import-photo');
 
+    $('.chip').remove();
+
     $("#edit-confirm").addClass('disabled');
     Materialize.updateTextFields();
 
     $('#finish-button').text("Cancel");
     $('#city').val("");
     
-    $('div.chip').remove();
-    this.addedChips = false;
   }
 
   getAllTags() {
@@ -85,6 +86,7 @@ class UploadModal extends React.Component {
       let child = $('.chip')[index];
       tags.push(child.firstChild.data);
     });
+    console.log(tags);
     return tags;
   }
 

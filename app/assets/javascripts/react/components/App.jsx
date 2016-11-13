@@ -11,8 +11,10 @@ class App extends React.Component {
       page: window.location.hash == "" ? "#" : window.location.hash,
       photos: [],
       loading: false,
-      currentLocation: ''
+      currentLocation: this.props.userLocation
     };
+
+    console.log(this.state.currentLocation);
 
     $('body').on('click', 'a.page-link', (event) => {
       if (event.currentTarget.getAttribute("href") != this.state.page) {
@@ -51,34 +53,34 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.getLocation();
+    //this.getLocation();
     this.requestContent(this.state.page, true);
   }
 
   componentDidMount() {
   }
 
-  getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        $.ajax({
-          url: ADD_CURR_LOCATION_URL,
-          data: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          },
-          headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-          },
-          async: false,
-          type: "POST",
-          success: (data) => {
-            this.setState({ currentLocation: data.airport });
-          }
-        });
-      });
-    }
-  }
+  // getLocation() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       $.ajax({
+  //         url: ADD_CURR_LOCATION_URL,
+  //         data: {
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude
+  //         },
+  //         headers: {
+  //           'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  //         },
+  //         async: false,
+  //         type: "POST",
+  //         success: (data) => {
+  //           this.setState({ currentLocation: data.airport });
+  //         }
+  //       });
+  //     });
+  //   }
+  // }
 
   requestContent(page, refresh) {
     if (refresh) {
