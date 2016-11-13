@@ -118,11 +118,11 @@
             var task = new Task();
             var request = new XMLHttpRequest();
             request.open('GET', [
-                LuisClient.kServiceUrl, 
-                this._prefs.subid, 
-                "&id=", 
-                this._prefs.appid, 
-                "&q=", 
+                LuisClient.kServiceUrl,
+                this._prefs.subid,
+                "&id=",
+                this._prefs.appid,
+                "&q=",
                 text
             ].join(""), true);
             request.onload = function () {
@@ -286,7 +286,7 @@ html, body {
     max-height: 60px !important;
     max-width: 100px !important;
     transform: translateY(-50%);
-    filter: brightness(0) invert(1); 
+    filter: brightness(0) invert(1);
 }
 
 </style>
@@ -313,14 +313,17 @@ html, body {
     </div>
   </div>
   <div class="row icon-row">
-    <div class="col s4 center">
+    <div class="col s3 center">
         <img src="https://www.thecerbatgem.com/logos/square-inc-logo.png" class="icon"/>
     </div>
-    <div class="col s4 center">
+    <div class="col s3 center">
         <img src="https://serverblend.com/wp-content/uploads/2013/06/microsoft-logo.png" class="icon"/>
     </div>
-    <div class="col s4 center">
+    <div class="col s3 center">
         <img src="https://microsoft.github.io/techcasestudies/images/Amadeus-Logo.png" class="icon">
+    </div>
+    <div class="col s3 center">
+        <img src="https://www.twilio.com/marketing/bundles/archetype/img/logo-wordmark.svg" class="icon">
     </div>
   </div>
 </div>
