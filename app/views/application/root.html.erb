@@ -28,12 +28,22 @@
             console.log(text);
             $(".mic-loader").css({"display": "none"});
             if (text.entities && text.entities.length > 0) {
-                $('#mic-output').text(text.query + " | Entity: " + text.entities[0].entity);
-                setTimeout(() => {
-                    window.filterPictures(text.entities[0].entity)
-                    $('.mic-modal-close').click();
-                    $('#mic-output').text("");
-                }, 1000)
+                if (text.intents[0].intent == "SearchEmotions") {
+                    $('#mic-output').text(text.query + " | Entity: " + text.entities[0].entity);
+                    setTimeout(() => {
+                        window.filterPictures(text.entities[0].entity, true)
+                        $('.mic-modal-close').click();
+                        $('#mic-output').text("");
+                    }, 1000)
+
+                } else {
+                    $('#mic-output').text(text.query + " | Entity: " + text.entities[0].entity);
+                    setTimeout(() => {
+                        window.filterPictures(text.entities[0].entity, false)
+                        $('.mic-modal-close').click();
+                        $('#mic-output').text("");
+                    }, 1000)
+                }
             } else {
                 $('#mic-output').text("Uh Oh! Something went wrong.");
                 setTimeout(() => {

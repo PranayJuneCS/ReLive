@@ -48,6 +48,7 @@ class PhotoCard extends React.Component {
           $(".selected-photo img").attr('src', comp[0].props.url);
           $(".selected-photo img").css({"top": $('body').scrollTop() + (screen.height / 2) - 100, left: screen.width / 2});
           $(".selected-photo-close").css({"top": $('body').scrollTop() - ($(".selected-photo img").height() / 2) + (screen.height / 2) - 100, left: screen.width / 2 - ($(".selected-photo img").width() / 2)});
+          $(".selected-photo-info").css({"top": $('body').scrollTop() - ($(".selected-photo img").height() / 2) + (screen.height / 2) - 100, left: screen.width / 2 + ($(".selected-photo img").width() / 2)});
     }, 150, [this])
     window.pictureActive = true;
     this.getFlights();

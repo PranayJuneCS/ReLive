@@ -98,6 +98,7 @@ class App extends React.Component {
           <div className="selected-photo animated hide">
             <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
             <a className="selected-photo-close" href="#"><i className="fa fa-times" aria-hidden="true"></i></a>
+            <a className="selected-photo-info" href="#"><i className="fa fa-info-circle" aria-hidden="true"></i></a>
           </div>
         </div>
     }
@@ -105,10 +106,19 @@ class App extends React.Component {
     return content;
   }
 
-  filterPictures(searchQuery) {
+  filterPictures(searchQuery, isEmotion) {
     if (searchQuery == "") {
       this.setState({isFiltering: false});
       return;
+    }
+    var keys;
+    if (isEmotion) {
+      keys = ["faces.emotion"];
+    } else {
+      keys = [
+        "captions.text",
+        "tags.text"
+      ]
     }
     var options = {
       caseSensitive: true,
@@ -118,12 +128,9 @@ class App extends React.Component {
       location: 0,
       distance: 100,
       maxPatternLength: 32,
-      keys: [
-        "captions.text",
-        "tags.text"
-      ]
+      keys: keys
     };
-    var fuse = new Fuse(this.state.photos, options)
+    var fuse = new Fuse(this.state.photos, options);
     var result = fuse.search(searchQuery);
 
     this.setState({isFiltering: true, filterPictures: result});

@@ -85,6 +85,14 @@ body, html {
   font-size: 25px
 }
 
+.selected-photo-info {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 3000001;
+  color: #6d676e;
+  font-size: 25px
+}
+
 .selected-photo img {
   position: absolute;
   transform: translate(-50%, -50%);

@@ -66,12 +66,15 @@ class Photo < ApplicationRecord
 
     data = JSON.parse(response.body)
     if data.kind_of?(Array)
-      # an array of datapoints
-      coordinates = data[0]["faceRectangle"];
-      scores = data[0]["scores"]
-      max_score = scores.max_by { |k, v| v.to_f }
-      Face.create(height: coordinates["height"], left: coordinates["left"], top: coordinates["top"],
-        width: coordinates["width"], emotion: max_score[0], score: max_score[1], photo_id: self.id);
+      data.each do |emotion|
+        # an array of datapoints
+        coordinates = emotion["faceRectangle"];
+        scores = emotion["scores"]
+        max_score = scores.max_by { |k, v| v.to_f }
+        Face.create(height: coordinates["height"], left: coordinates["left"], top: coordinates["top"],
+          width: coordinates["width"], emotion: max_score[0], score: max_score[1], photo_id: self.id);
+      end
+
     end
 
   end

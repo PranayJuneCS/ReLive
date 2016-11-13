@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   def get_photos
     images = Photo.where(user_id: @user.id)
-    render json: images.to_json(include: [:tags, :captions])
+    render json: images.to_json(include: [:tags, :captions, :faces])
   end
 
   def card
