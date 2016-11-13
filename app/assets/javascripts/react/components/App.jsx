@@ -117,7 +117,8 @@ class App extends React.Component {
       keys = [
         "captions.text",
         "tags.text",
-        "faces.emotion"
+        "faces.emotion",
+        "city"
       ]
     }
     var options = {
