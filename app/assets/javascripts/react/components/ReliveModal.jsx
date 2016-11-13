@@ -6,8 +6,9 @@ class ReliveModal extends React.Component {
   constructor(props) {
     super(props);
     this.flightInfo = null;
-
+    this.getAirlines();
     $("#reliveModal").leanModal();
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -15,7 +16,6 @@ class ReliveModal extends React.Component {
     this.flightInfo = null;
     this.forceUpdate();
     this.getFlights();
-
   }
 
   componentDidMount() {
@@ -41,6 +41,7 @@ class ReliveModal extends React.Component {
         $("#payment").addClass("disabled");
         $("#action-button").addClass("hide");
         $("#reliveModal").closeModal();
+        Materialize.toast('Flight Booked!', 3000);
         this.flightInfo = null;
       }
       
@@ -61,6 +62,16 @@ class ReliveModal extends React.Component {
       this.flightInfo = null;
       
     });
+  }
+
+  getAirlines() {
+    $.ajax({
+      url: "/airlines",
+      type: "GET",
+      success: (data) => {
+        this.airlines = data;
+      }
+    })
   }
 
   getFlights() {
@@ -116,11 +127,11 @@ class ReliveModal extends React.Component {
                 <tbody>
                   <tr>
                     <td>Destination</td>
-                    <td>{this.flightInfo.destination}</td>
+                    <td>{this.flightInfo.destination + "/" + this.toTitleCase(window.activePicture.city)}</td>
                   </tr>
                   <tr>
                     <td>Airline</td>
-                    <td>{this.flightInfo.airline}</td>
+                    <td>{this.airlines[this.flightInfo.airline].name}</td>
                   </tr>
                   <tr>
                     <td>Departure Date</td>

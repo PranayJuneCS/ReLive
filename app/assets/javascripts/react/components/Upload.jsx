@@ -27,6 +27,7 @@ class UploadModal extends React.Component {
       complete: (event) => {
         if ($("#finish-button").text() == "Finish") {
           this.sendInfoToServer();
+          Materialize.toast('Upload Successful!', 3000);
         } else {
           $('ul.tabs#nav-tabs').tabs('select_tab', '');
           this.props.refresh("#", false);

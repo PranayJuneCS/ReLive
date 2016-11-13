@@ -25,6 +25,10 @@ class ApplicationController < ActionController::Base
     render file: "privacypolicy.htm"
   end
 
+  def airlines
+    render json: File.read("public/airlines.json")
+  end
+
   def new_photo
     photo = Photo.create(url: params[:url], user_id: @user.id)
     render json: { "tags": photo.tags, "captions": photo.captions }

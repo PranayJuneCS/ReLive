@@ -30,6 +30,16 @@ body, html {
   margin-left: 15%;
 }
 
+.toast {
+  margin-top: 0px !important;
+  background-color: rgb(27, 185, 51) !important;
+}
+
+#toast-container {
+  top: 0 !important;
+  right: 35% !important;
+}
+
 .center-flex {
   display: flex;
   justify-content: center;

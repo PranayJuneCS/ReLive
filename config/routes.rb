@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   post '/photo/new', to: 'application#new_photo'
   post '/user/update_location', to: 'application#update_location'
   post '/photo/update', to: 'application#update_photo'
+  get '/airlines', to: 'application#airlines'
 end
