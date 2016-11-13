@@ -31,6 +31,7 @@ gem 'unirest'
 
 gem 'pry'
 
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -61,3 +62,5 @@ gem 'react-rails'
 gem 'browserify-rails'
 gem 'cloudinary'
 gem 'square_connect'
+gem 'twilio-ruby'
+

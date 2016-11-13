@@ -1,9 +1,13 @@
 require 'json'
+require 'twilio-ruby'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :get_info
+
+  @@account_sid = "AC938774ae721c5b35e154e84ae190f39f"
+  @@auth_token = "15381910a6ddf26b2353b91a2961c657"
 
   # Before filter
   def get_info
@@ -11,6 +15,7 @@ class ApplicationController < ActionController::Base
     if @user.nil?
       @user = User.create(name: "global")
     end
+    
   end
 
   # Render "/"
@@ -23,6 +28,24 @@ class ApplicationController < ActionController::Base
 
   def privacy
     render file: "privacypolicy.htm"
+  end
+
+  def send_text
+    client = Twilio::REST::Client.new @@account_sid, @@auth_token
+    from = "+19163475556"
+    client.account.messages.create(
+      :from => from,
+      :to => params[:number],
+      :body => "Hey #{@user.name}, here are your flight details:
+                Source: #{params[:source]},
+                Destination: #{params[:destination]},
+                Airline: #{params[:airline]},
+                Departure: #{params[:departure_date]},
+                Return: #{params[:return_date]},
+                Price: #{params[:price]}
+              "
+    )
+    render json: { "success": "success" }
   end
 
   def airlines
