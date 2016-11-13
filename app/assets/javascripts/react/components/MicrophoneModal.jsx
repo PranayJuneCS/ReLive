@@ -37,12 +37,7 @@ class MicrophoneModal extends React.Component {
               </div>
             </div>
             <div className="mic-loader">
-              <div className="atom">
-                <div className="electron"></div>
-                <div className="electron"></div>
-                <div className="electron"></div>
-                <div className="electron"></div>
-              </div>
+              <Gyroscope size={32} />
             </div>
             <p id="mic-output"></p>
           </div>

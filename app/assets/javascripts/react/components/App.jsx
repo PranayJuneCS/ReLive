@@ -6,12 +6,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     window.filterPictures = this.filterPictures.bind(this);
+    window.userLocation = this.props.userLocation;
 
     this.state = {
       page: window.location.hash == "" ? "#" : window.location.hash,
       photos: [],
       loading: false,
-      currentLocation: this.props.userLocation
+      currentLocation: this.props.userLocation,
+      activePicture: ""
     };
 
     console.log(this.state.currentLocation);
@@ -38,6 +40,7 @@ class App extends React.Component {
           $(".selected-photo").addClass('hide');
         }, 350, [this])
         window.pictureActive = false;
+        window.activePicture = null;
       }
     });
 
@@ -49,7 +52,7 @@ class App extends React.Component {
     });
 
     $('body').on('click', '.selected-photo-options a.relive', () => {
-      console.log("RELIVE MOMENT CLICKED");
+      this.forceUpdate();
     });
 
   }
@@ -143,6 +146,7 @@ class App extends React.Component {
         </div>
         <UploadModal refresh={this.requestContent.bind(this)} />
         <MicrophoneModal />
+        <ReliveModal />
       </div>
     );
   }
