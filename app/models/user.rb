@@ -2,9 +2,16 @@ require 'unirest'
 
 class User < ApplicationRecord
   has_many :photos
-  AMADEUS_KEY = "3nWhAi9MARcfnjux7wwghgixAjSuLJhe";
+  AMADEUS_KEY = "3nWhAi9MARcfnjux7wwghgixAjSuLJhe"
+  DEMO = true
 
   def update_location(lat, lng)
+    if User::DEMO
+      self.airport = "SFO"
+      self.save
+      return
+    end
+
     require 'json'
     require 'net/http'
 
@@ -23,6 +30,7 @@ class User < ApplicationRecord
     body = JSON.parse(response.body)
 
     if body[0]
+      require 'pry'; binding.pry
       self.airport = body[0]["airport"]
     end
   	self.save

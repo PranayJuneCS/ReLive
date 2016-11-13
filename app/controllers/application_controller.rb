@@ -15,7 +15,10 @@ class ApplicationController < ActionController::Base
     if @user.nil?
       @user = User.create(name: "global")
     end
-    
+    if User::DEMO
+      @user.airport = "SFO"
+      @user.save
+    end
   end
 
   # Render "/"

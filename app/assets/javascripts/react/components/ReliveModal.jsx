@@ -133,7 +133,7 @@ class ReliveModal extends React.Component {
           let string = "There is no flight data available for flights to " + this.toTitleCase(window.activePicture.city);
           string += " from " + window.userLocation + " right now.";
           return (
-            <h5 className="center-align white-text">{string}</h5>
+            <h6 className="no-flight center-align white-text">{string}</h6>
           );
         } else {
           $("#action-button").removeClass('hide');
