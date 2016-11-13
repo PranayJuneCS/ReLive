@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   post '/user/update_location', to: 'application#update_location'
   post '/photo/update', to: 'application#update_photo'
   get '/airlines', to: 'application#airlines'
+  get '/send_text', to: 'application#send_text'
 end

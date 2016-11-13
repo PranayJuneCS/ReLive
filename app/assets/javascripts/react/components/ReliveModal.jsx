@@ -42,6 +42,24 @@ class ReliveModal extends React.Component {
         $("#action-button").addClass("hide");
         $("#reliveModal").closeModal();
         Materialize.toast('Flight Booked!', 3000);
+        $.ajax({
+          url: "/send_text",
+          data: {
+            number: "+1" + $("#phone_number").val(),
+            destination: this.flightInfo.destination,
+            airline: this.airlines[this.flightInfo.airline].name,
+            price: "$" + this.flightInfo.price,
+            departure_date: this.flightInfo.departure_date,
+            return_date: this.flightInfo.return_date,
+            source: window.userLocation
+          },
+          success: (data) => {
+            console.log("SUCCESSFUL TEXT SENT");
+          },
+          error: (data) => {
+            console.log("UNSUCCESSFUL TEXT SENT");
+          }
+        })
         this.flightInfo = null;
       }
 
@@ -103,6 +121,7 @@ class ReliveModal extends React.Component {
     }
   }
 
+
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   }
@@ -147,6 +166,11 @@ class ReliveModal extends React.Component {
                   </tr>
                 </tbody>
               </table>
+              <div className="input-field col s12 white-text">
+                <i className="material-icons prefix">phone</i>
+                <input id="phone_number" type="tel" className="validate" />
+                <label htmlFor="phone_number">Phone Number to Send Flight Details</label>
+              </div>
             </div>
           );
         }
