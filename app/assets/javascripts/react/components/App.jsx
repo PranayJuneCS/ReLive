@@ -39,6 +39,15 @@ class App extends React.Component {
       }
     });
 
+    $('body').on('click', '.selected-photo-options a.similar', () => {
+      var win = window.open("https://www.bing.com/images/search?q=" + window.activePicture.captions[0].text, '_blank');
+      win.focus();
+    });
+
+    $('body').on('click', '.selected-photo-options a.relive', () => {
+      console.log("RELIVE MOMENT CLICKED");
+    });
+
   }
 
   componentWillMount() {
@@ -102,6 +111,12 @@ class App extends React.Component {
             <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
             <a className="selected-photo-close" href="#"><i className="fa fa-times" aria-hidden="true"></i></a>
             <a data-position="right" data-delay="50" data-tooltip="I am tooltip" className="tooltipped selected-photo-info" href="#"><i className="fa fa-info-circle" aria-hidden="true"></i></a>
+            <div className="row selected-photo-options">
+              <div className="col s12">
+                <a href="#" className="relive btn blue-grey darken-4">Relive This Moment</a>
+                <a href="#" className="similar btn blue-grey darken-4">Similar Photos</a>
+              </div>
+            </div>
           </div>
         </div>
     }
@@ -120,7 +135,8 @@ class App extends React.Component {
     } else {
       keys = [
         "captions.text",
-        "tags.text"
+        "tags.text",
+        "faces.emotion"
       ]
     }
     var options = {

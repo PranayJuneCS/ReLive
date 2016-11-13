@@ -2,6 +2,17 @@
   text-align: center
 }
 
+a.similar {
+  padding: 0 1rem;
+  font-size: 13px;
+}
+
+a.relive {
+  padding: 0 1rem;
+  font-size: 13px;
+  margin-right: 10px;
+}
+
 .white-text {
   color: white;
 }
@@ -97,11 +108,18 @@ body, html {
   font-size: 25px
 }
 
+.selected-photo-options {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 3000001;
+  font-size: 25px
+}
+
 .selected-photo img {
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 30000;
-  max-width: 800px;
+  max-width: 1000px;
   max-height: 550px;
 }
 
