@@ -40,9 +40,14 @@ class PhotoCard extends React.Component {
   }
 
   clicked() {
+    if (window.tooltipInitiated == undefined) {
+      $('.tooltipped').tooltip({delay: 50});
+      window.tooltipInitiated = true;
+    }
     this.setState({selected: true});
     $('.fade-bg').addClass('active');
     $(".container.gallery").addClass("push-back");
+    $('.material-tooltip#' + $('.selected-photo-info').data('tooltip-id') + " span").html(this.props.caption + "<br /><br />Hello World Hello World Hello World Hello World Hello World Hello World!");
     setTimeout(function(comp) {
           $(".selected-photo").removeClass("hide").removeClass("fadeOut").addClass("fadeIn");
           $(".selected-photo img").attr('src', comp[0].props.url);

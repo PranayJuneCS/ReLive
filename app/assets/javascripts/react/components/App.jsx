@@ -46,6 +46,9 @@ class App extends React.Component {
     this.requestContent(this.state.page, true);
   }
 
+  componentDidMount() {
+  }
+
   getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -98,7 +101,7 @@ class App extends React.Component {
           <div className="selected-photo animated hide">
             <img className="" src={"https://res.cloudinary.com/laucity/image/upload/v1476385806/ozwp1icdh1cgztiidtfi.jpg"} />
             <a className="selected-photo-close" href="#"><i className="fa fa-times" aria-hidden="true"></i></a>
-            <a className="selected-photo-info" href="#"><i className="fa fa-info-circle" aria-hidden="true"></i></a>
+            <a data-position="right" data-delay="50" data-tooltip="I am tooltip" className="tooltipped selected-photo-info" href="#"><i className="fa fa-info-circle" aria-hidden="true"></i></a>
           </div>
         </div>
     }
