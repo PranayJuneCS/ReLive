@@ -17,7 +17,7 @@ class PhotoCard extends React.Component {
   }
 
   getFlights() {
-    if (this.state.userAirport != null && this.state.pictureAirport != null) {
+    if (this.state.userAirport && this.state.pictureAirport) {
       $.ajax({
         url: GET_FLIGHT_URL,
         data: {
@@ -30,7 +30,12 @@ class PhotoCard extends React.Component {
         success: (data) => {
           console.log(data.results[0]);
         }
+        // error: (data) => {
+        //   console.log(data);
+        // }
       });
+    } else {
+      console.log(this.state.userAirport, this.state.pictureAirport);
     }
   }
 

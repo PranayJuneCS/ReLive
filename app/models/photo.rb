@@ -97,23 +97,45 @@ class Photo < ApplicationRecord
       self.city = city
 
       if self.city
-        response = Unirest.get "https://maps.googleapis.com/maps/api/geocode/json?",
-                               parameters: {
-                                  key: Photo::GEOCODE_KEY,
-                                  address: self.city
-                               }
-        if response.body["results"]
-          self.latitude = response.body["results"][0]["geometry"]["location"]["lat"]
-          self.longitude = response.body["results"][0]["geometry"]["location"]["lng"]
+        require 'json'
+        require 'net/http'
 
-          response = Unirest.get "https://api.sandbox.amadeus.com/v1.2/airports/nearest-relevant",
-                                 parameters: {
-                                    apikey: Photo::AMADEUS_KEY,
-                                    latitude: self.latitude,
-                                    longitude: self.longitude
-                                 }
-          if response.body[0]
-            self.airport = response.body[0]["airport"]
+        puts self.city
+        uri = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + self.city
+        uri = URI(uri)
+
+        request = Net::HTTP::Get.new(uri.request_uri)
+
+        response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+            http.request(request)
+        end
+
+        body = JSON.parse(response.body)
+
+        if body["results"]
+          self.latitude = body["results"][0]["geometry"]["location"]["lat"]
+          self.longitude = body["results"][0]["geometry"]["location"]["lng"]
+
+          require 'json'
+          require 'net/http'
+
+          uri = 'https://api.sandbox.amadeus.com/v1.2/airports/nearest-relevant?';
+          uri += ("apikey=" + Photo::AMADEUS_KEY)
+          uri += ("&latitude=" + self.latitude)
+          uri += ("&longitude=" + self.longitude)
+          uri = URI(uri)
+
+          request = Net::HTTP::Get.new(uri.request_uri)
+
+          response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+              http.request(request)
+          end
+
+          body = JSON.parse(response.body)
+          puts body
+
+          if body[0]
+            self.airport = body[0]["airport"]
           end
         end
       end
