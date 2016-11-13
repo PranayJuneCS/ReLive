@@ -304,15 +304,6 @@ body, html {
   background-color: #141e2a;
 }
 
-.atom {
-  margin: 50px auto;
-  width: 120px;
-  height: 120px;
-  position: relative;
-  perspective: 300px;
-  transform-style: preserve-3d;
-}
-
 .appbar-icon {
   display: inline-block;
   margin-right: 25px;
