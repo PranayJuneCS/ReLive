@@ -103,56 +103,39 @@ class ReliveModal extends React.Component {
           let string = "There is no flight data available for flights to " + this.toTitleCase(window.activePicture.city);
           string += " from " + window.userLocation + " right now.";
           return (
-            <h4 className="center-align white-text">{string}</h4>
+            <h5 className="center-align white-text">{string}</h5>
           );
         } else {
           $("#action-button").removeClass('hide');
-          console.log(this.flightInfo);
           return (
             <div className="col s12">
               <div className="col s12">
-                <h4 className="center-align white-text">We have found a flight for you!</h4>
+                <h5 className="center-align white-text">We found a flight for you!</h5>
               </div>
-              <div className="row center-align white-text">
-                <div className="col s6">
-                  <p>Destination</p>
-                </div>
-                <div className="col s6">
-                  <p>{this.flightInfo.destination}</p>
-                </div>
-              </div>
-              <div className="row center-align white-text">
-                <div className="col s6">
-                  <p>Airline</p>
-                </div>
-                <div className="col s6">
-                  <p>{this.flightInfo.airline}</p>
-                </div>
-              </div>
-              <div className="row center-align white-text">
-                <div className="col s6">
-                  <p>Departure Date</p>
-                </div>
-                <div className="col s6">
-                  <p>{this.flightInfo.departure_date}</p>
-                </div>
-              </div>
-              <div className="row center-align white-text">
-                <div className="col s6">
-                  <p>Return Date</p>
-                </div>
-                <div className="col s6">
-                  <p>{this.flightInfo.return_date}</p>
-                </div>
-              </div>
-              <div className="row center-align white-text">
-                <div className="col s6">
-                  <p>Price</p>
-                </div>
-                <div className="col s6">
-                  <p>{"$" + this.flightInfo.price}</p>
-                </div>
-              </div>
+              <table className="white-text col s12 bordered">
+                <tbody>
+                  <tr>
+                    <td>Destination</td>
+                    <td>{this.flightInfo.destination}</td>
+                  </tr>
+                  <tr>
+                    <td>Airline</td>
+                    <td>{this.flightInfo.airline}</td>
+                  </tr>
+                  <tr>
+                    <td>Departure Date</td>
+                    <td>{this.flightInfo.departure_date}</td>
+                  </tr>
+                  <tr>
+                    <td>Return Date</td>
+                    <td>{this.flightInfo.return_date}</td>
+                  </tr>
+                  <tr>
+                    <td>Price</td>
+                    <td>{"$" + this.flightInfo.price}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           );
         }
@@ -160,8 +143,10 @@ class ReliveModal extends React.Component {
       } else {
         return (
           <div className="col s12">
-            <h4 className="white-text">Retrieving Flight Info...</h4>
-            <Gyroscope size={"large"} />
+            <h5 className="white-text center-align">Retrieving Flight Info...</h5>
+            <div className="margin-left-15">
+              <Gyroscope size={"large"} />
+            </div>
           </div>
         );
       }

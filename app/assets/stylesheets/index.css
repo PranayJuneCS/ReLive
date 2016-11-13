@@ -26,6 +26,10 @@ body, html {
   margin: 0;
 }
 
+.margin-left-15 {
+  margin-left: 15%;
+}
+
 .center-flex {
   display: flex;
   justify-content: center;
