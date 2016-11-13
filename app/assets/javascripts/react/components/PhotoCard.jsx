@@ -16,30 +16,7 @@ class PhotoCard extends React.Component {
     });
   }
 
-  getFlights() {
-    if (this.state.userAirport && this.state.pictureAirport) {
-      $.ajax({
-        url: GET_FLIGHT_URL,
-        data: {
-          apikey: AMADEUS_KEY,
-          origin: this.state.userAirport,
-          destination: this.state.pictureAirport,
-          departure_date: "2017-01-01--2017-06-30"
-        },
-        type: "GET",
-        success: (data) => {
-          console.log(data.results[0]);
-        },
-        error: (data) => {
-          console.log("ERROR");
-          console.log(data);
-        }
-      });
-    } else {
-      console.log("Invalid airports");
-      console.log(this.state.userAirport, this.state.pictureAirport);
-    }
-  }
+  
 
   clicked() {
     if (window.tooltipInitiated == undefined) {
@@ -82,7 +59,7 @@ class PhotoCard extends React.Component {
     }, 150, [this])
     window.pictureActive = true;
     window.activePicture = this.props.photo;
-    this.getFlights();
+    // this.getFlights();
   }
 
   componentDidMount() {

@@ -190,8 +190,6 @@ class UploadModal extends React.Component {
                 <li id="edit-confirm" className="tab col s1 disabled"><a href="#edit-photo">Edit & Confirm</a></li>
               </ul>
             </div>
-
-
           </div>
 
           <div id="upload-photo" className="upload-modal-height">
