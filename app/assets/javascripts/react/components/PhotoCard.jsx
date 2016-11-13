@@ -64,7 +64,12 @@ class PhotoCard extends React.Component {
       //tagsString += tag.text + " ";
     }
 
-    $('.material-tooltip#' + $('.selected-photo-info').data('tooltip-id') + " span").html("<h5>" + this.props.caption + "</h5><br /><br />" + tagsString + "<br /><br />" + emotionsString);
+    var cityString = "";
+    if (this.props.photo.city && this.props.photo.city != "") {
+      cityString = "<h6>City</h6><div class='chip'>" + this.props.photo.city + "</div>";
+    }
+
+    $('.material-tooltip#' + $('.selected-photo-info').data('tooltip-id') + " span").html("<h5>" + this.props.caption + "</h5><br /><br />" + tagsString + "<br />" + emotionsString + "<br />" + cityString);
     setTimeout(function(comp) {
           $(".selected-photo").removeClass("hide").removeClass("fadeOut").addClass("fadeIn");
           $(".selected-photo img").attr('src', comp[0].props.url);
