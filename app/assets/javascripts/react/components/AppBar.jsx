@@ -32,14 +32,7 @@ class AppBar extends React.Component {
             <div className="nav-wrapper container">
               <div className="row">
                 <div className="col s2">
-                  <div className="appbar-icon">
-                    <div className="atom small">
-                      <div className="electron"></div>
-                      <div className="electron"></div>
-                      <div className="electron"></div>
-                      <div className="electron"></div>
-                    </div>
-                  </div>
+                  <Gyroscope size={16}/>
                   <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
                   <a href="#" className="brand-logo">Relive {/*<em style={{fontSize: "14px"}}>CalHacks 3.0</em>*/}</a>
                 </div>
