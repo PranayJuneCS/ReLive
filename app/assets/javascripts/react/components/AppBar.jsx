@@ -20,6 +20,14 @@ class AppBar extends React.Component {
        this.props.filterPictures.call(null, searchText);
       }
     });
+
+    $("a.brand-logo").on('click', (event) => {
+      let oldVal = $("#search").val();
+      $("#search").val("");
+      if (oldVal != "") {
+        this.props.filterPictures.call(null, "");
+      }
+    });
   }
 
   render() {

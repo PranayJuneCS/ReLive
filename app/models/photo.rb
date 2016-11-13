@@ -85,7 +85,7 @@ class Photo < ApplicationRecord
       my_caption.text = caption
       my_caption.save
     else
-      Caption.create(text: "Bleh", photo_id: self.id)
+      Caption.create(text: caption, photo_id: self.id)
     end
 
     self.tags.destroy_all

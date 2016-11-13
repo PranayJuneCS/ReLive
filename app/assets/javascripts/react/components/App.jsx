@@ -153,6 +153,7 @@ class App extends React.Component {
     };
     var fuse = new Fuse(this.state.photos, options);
     var result = fuse.search(searchQuery);
+    $("#search").val(searchQuery);
 
     this.setState({isFiltering: true, filterPictures: result});
   }
