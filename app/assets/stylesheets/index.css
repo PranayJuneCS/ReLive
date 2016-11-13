@@ -1,3 +1,7 @@
+.material-tooltip {
+  max-width: 240px !important;
+}
+
 .center-text {
   text-align: center
 }
@@ -22,6 +26,10 @@ body, html {
 
 .chips .input {
   color: white !important;
+}
+
+.tabs .tab.disabled a {
+  color: rgb(127, 127, 127) !important;
 }
 
 .dropzone .dz-preview .dz-image {
@@ -85,11 +93,20 @@ body, html {
   font-size: 25px
 }
 
+.selected-photo-info {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 3000001;
+  color: #6d676e;
+  font-size: 25px
+}
+
 .selected-photo img {
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 30000;
   max-width: 800px;
+  max-height: 600px;
 }
 
 .fade-bg {

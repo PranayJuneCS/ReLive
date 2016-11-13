@@ -15,6 +15,9 @@ class UploadModal extends React.Component {
       upload_dialog: "",
       upload_gyroscope: "hide"
     };
+
+    this.addedChips = false;
+
   }
 
   componentDidMount() {
@@ -33,9 +36,8 @@ class UploadModal extends React.Component {
   }
 
   sendInfoToServer() {
-    let tagStrings = this.getTagNames();
+    let tagStrings = this.getAllTags();
     let caption = $("#caption").val();
-    console.log(caption);
     let city = $("#city").val();
     $.ajax({
       type: "POST",
@@ -74,14 +76,18 @@ class UploadModal extends React.Component {
 
     $('#finish-button').text("Cancel");
     $('#city').val("");
-    let length = $('.chips-initial').material_chip('data').length;
-    $('.chips-initial').material_chip('data').splice(0, length);
+
     $('div.chip').remove();
-    // $('.chips-initial').material_chip({
-    //   placeholder: 'Enter a tag',
-    //   secondaryPlaceholder: '+Tag',
-    //   data: [],
-    // });
+    this.addedChips = false;
+  }
+
+  getAllTags() {
+    let tags = [];
+    $('.chip').each((index) => {
+      let child = $('.chip')[index];
+      tags.push(child.firstChild.data);
+    });
+    return tags;
   }
 
   onImageDrop(file) {
@@ -148,10 +154,18 @@ class UploadModal extends React.Component {
 
   getTagNames() {
     let list = [];
-    for (var object of $('.chips-initial').material_chip('data')) {
+    for (var object of this.state.tags) {
       list.push(object.tag);
     }
     return list;
+  }
+
+  appendChipDivs() {
+    for (var name of this.getTagNames()) {
+      let newChip = "<div class='chip'>" + name + "<i class='material-icons close'>close</i></div>";
+      $(newChip).insertBefore(".chip-placeholder > input");
+    }
+    this.addedChips = true;
   }
 
   handleChange(event) {
