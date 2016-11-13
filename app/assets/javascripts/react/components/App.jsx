@@ -42,7 +42,9 @@ class App extends React.Component {
     });
 
     $('body').on('click', '.selected-photo-options a.similar', () => {
-      var win = window.open("https://www.bing.com/images/search?q=" + window.activePicture.captions[0].text, '_blank');
+      let query = "https://www.bing.com/images/search?q=" + window.activePicture.captions[0].text;
+      query += " " + window.activePicture.city;
+      var win = window.open(query, '_blank');
       win.focus();
     });
 
@@ -53,34 +55,8 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    //this.getLocation();
     this.requestContent(this.state.page, true);
   }
-
-  componentDidMount() {
-  }
-
-  // getLocation() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       $.ajax({
-  //         url: ADD_CURR_LOCATION_URL,
-  //         data: {
-  //           lat: position.coords.latitude,
-  //           lng: position.coords.longitude
-  //         },
-  //         headers: {
-  //           'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-  //         },
-  //         async: false,
-  //         type: "POST",
-  //         success: (data) => {
-  //           this.setState({ currentLocation: data.airport });
-  //         }
-  //       });
-  //     });
-  //   }
-  // }
 
   requestContent(page, refresh) {
     if (refresh) {

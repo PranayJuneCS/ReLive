@@ -199,7 +199,7 @@ class UploadModal extends React.Component {
               <DropZone uploadImage={this.onImageDrop.bind(this)} />
             </div>
             <div className={this.state.upload_gyroscope}>
-              <Gyroscope size={128}/>
+              <Gyroscope size={"large"}/>
             </div>
           </div>
 

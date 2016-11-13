@@ -140,6 +140,8 @@ class Photo < ApplicationRecord
           end
         end
       end
+    else
+      self.city = ""
     end
 
     self.save

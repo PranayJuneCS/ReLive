@@ -24,17 +24,19 @@ class PhotoCard extends React.Component {
           apikey: AMADEUS_KEY,
           origin: this.state.userAirport,
           destination: this.state.pictureAirport,
-          departure_date: "2017-01-01--2017-01-31"
+          departure_date: "2017-01-01--2017-06-30"
         },
         type: "GET",
         success: (data) => {
           console.log(data.results[0]);
+        },
+        error: (data) => {
+          console.log("ERROR");
+          console.log(data);
         }
-        // error: (data) => {
-        //   console.log(data);
-        // }
       });
     } else {
+      console.log("Invalid airports");
       console.log(this.state.userAirport, this.state.pictureAirport);
     }
   }
