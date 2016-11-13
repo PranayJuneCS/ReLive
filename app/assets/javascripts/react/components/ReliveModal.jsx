@@ -154,7 +154,17 @@ class ReliveModal extends React.Component {
       return null;
     }
     
-  } 
+  }
+
+  renderSquare() {
+    if (this.flightInfo) {
+      return (
+        <Square amount={this.flightInfo.price} />
+      );
+    } else {
+      return <p className="white-text">No Square :(</p>
+    }
+  }
 
   render() {
     let url;
@@ -194,7 +204,7 @@ class ReliveModal extends React.Component {
                 <img className="full-width" src={url} />
               </div>
               <div className="col s5">
-                <p className="white-text">Square Duh</p>
+                {this.renderSquare.call(this)}
               </div>
             </div>
           </div>
