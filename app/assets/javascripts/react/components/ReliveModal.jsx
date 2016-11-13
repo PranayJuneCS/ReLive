@@ -8,7 +8,7 @@ class ReliveModal extends React.Component {
     this.flightInfo = null;
     this.getAirlines();
     $("#reliveModal").leanModal();
-    
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -20,7 +20,7 @@ class ReliveModal extends React.Component {
 
   componentDidMount() {
     $('ul.tabs#relive-modal-tabs').tabs();
-    
+
     $('body').on('click', '.selected-photo-options a.relive', () => {
       $("#reliveModal").openModal({dismissible: false});
       $('a[href="#flight-itinerary"]').click();
@@ -44,7 +44,7 @@ class ReliveModal extends React.Component {
         Materialize.toast('Flight Booked!', 3000);
         this.flightInfo = null;
       }
-      
+
     });
 
     $('body').on('click', '#cancel-button', () => {
@@ -60,7 +60,7 @@ class ReliveModal extends React.Component {
       }
       $("#reliveModal").closeModal();
       this.flightInfo = null;
-      
+
     });
   }
 
@@ -150,7 +150,7 @@ class ReliveModal extends React.Component {
             </div>
           );
         }
-        
+
       } else {
         return (
           <div className="col s12">
@@ -164,13 +164,13 @@ class ReliveModal extends React.Component {
     } else {
       return null;
     }
-    
+
   }
 
   renderSquare() {
     if (this.flightInfo) {
       return (
-        <Square amount={this.flightInfo.price} />
+        <Square amount={this.flightInfo.price * 100} />
       );
     } else {
       return <p className="white-text">No Square :(</p>

@@ -7,17 +7,23 @@ class Square extends React.Component {
 
     this.paymentForm = new SqPaymentForm({applicationId: "sandbox-sq0idp-3ztn06WED43NRGMH0pAs4w",
     inputClass: 'sq-input',
+    inputStyles: [
+      {
+        backgroundColor: "transparent",
+        color: "white",
+        fontSize: "11pt"
+      }
+    ],
     cardNumber: {
       elementId: 'sq-card-number',
-      placeholder: '•••• •••• •••• ••••'
+        placeholder: '•••• •••• •••• ••••'
     },
     cvv: {
       elementId: 'sq-cvv',
-      placeholder: 'CVV'
     },
     expirationDate: {
       elementId: 'sq-expiration-date',
-      placeholder: 'MM/YY'
+      placeholder: 'MM / YY'
     },
     postalCode: {
       elementId: 'sq-postal-code'
@@ -56,50 +62,40 @@ class Square extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col offset-s3 s6">
-            <div className="card blue darken-1">
-              <div className="card-content white-text">
-                <span className="card-title">Square</span>
-                <div className="row">
-                  <div className="col s6">
-                    <h6>Your total: ${(this.props.amount / 100).toFixed(2)}</h6>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col s12">
-                    <ul>{this.state.messages.map((message) => <li key={message}>{message}</li>)}</ul>
-                  </div>
-                </div>
-                {this.state.paid ? null :
-                <form className="form" onSubmit={this.requestCardNonce.bind(this)}>
-                  <div className="row">
-                    <div className="input-field col s8">
-                      <label htmlFor="sq-card-number">Card</label>
-                      <input id="sq-card-number" type="text"></input>
-                    </div>
-                    <div className="input-field col s4">
-                      <label htmlFor="sq-cvv">CVV</label>
-                      <input id="sq-cvv" type="text"></input>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-field col s6">
-                      <label htmlFor="sq-expiration-date">Expiration</label>
-                      <input id="sq-expiration-date" type="text"></input>
-                    </div>
-                    <div className="input-field col s6">
-                      <label htmlFor="sq-postal-code">Postal Code</label>
-                      <input id="sq-postal-code" type="text"></input>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col offset-s3 s6">
-                      <input className="btn" type="submit"></input>
-                    </div>
-                  </div>
-                </form>}
+          <div className="col s12 white-text">
+            <div className="row">
+              <div className="col s12 pay-with-square">
+                Pay with <img src="https://www.thecerbatgem.com/logos/square-inc-logo.png" className="square-icon"/>
               </div>
             </div>
+            <div className="row">
+              <div className="col s12">
+                <h6>Your total: ${(this.props.amount / 100).toFixed(2)}</h6>
+              </div>
+            </div>
+            {this.state.paid ? null :
+            <form className="form" onSubmit={this.requestCardNonce.bind(this)}>
+              <div className="row">
+                <div className="col s8">
+                  <label htmlFor="sq-card-number">Card</label>
+                  <input id="sq-card-number" type="text"></input>
+                </div>
+                <div className="col s4">
+                  <label htmlFor="sq-cvv">CVV</label>
+                  <input id="sq-cvv" type="text"></input>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s6">
+                  <label htmlFor="sq-expiration-date">Expiration</label>
+                  <input id="sq-expiration-date" type="text"></input>
+                </div>
+                <div className="col s6">
+                  <label htmlFor="sq-postal-code">Postal Code</label>
+                  <input id="sq-postal-code" type="text"></input>
+                </div>
+              </div>
+            </form>}
           </div>
         </div>
       </div>
