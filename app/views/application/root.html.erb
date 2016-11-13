@@ -218,6 +218,12 @@ h2 {
   color: white;
 }
 
+h3 {
+  font-family: verdana;
+  color: white;
+  font-size: 25px;
+}
+
 .vcenter {
   position: absolute;
   top: 50%;
@@ -239,16 +245,37 @@ html, body {
 
 .splash-title {
     position: absolute;
-    top: 35%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .splash-loader {
     position: absolute;
-    top: 55%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.splash-footer {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.icon-row {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.icon {
+    max-height: 100px !important;
+    max-width: 100px !important;
+    transform: translateY(-50%);
+    filter: brightness(0) invert(1); 
 }
 
 </style>
@@ -267,6 +294,22 @@ html, body {
           <div class="electron"></div>
           <div class="electron"></div>
         </div>
+    </div>
+  </div>
+  <div class="row splash-footer">
+    <div class="col s12 center">
+      <h3>Powered By</h3>
+    </div>
+  </div>
+  <div class="row icon-row">
+    <div class="col s4 center">
+        <img src="https://www.thecerbatgem.com/logos/square-inc-logo.png" class="icon"/>
+    </div>
+    <div class="col s4 center">
+        <img src="https://serverblend.com/wp-content/uploads/2013/06/microsoft-logo.png" class="icon"/>
+    </div>
+    <div class="col s4 center">
+        <img src="https://microsoft.github.io/techcasestudies/images/Amadeus-Logo.png" class="icon">
     </div>
   </div>
 </div>
