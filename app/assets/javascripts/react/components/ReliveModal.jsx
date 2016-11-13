@@ -8,7 +8,7 @@ class ReliveModal extends React.Component {
     this.flightInfo = null;
     this.getAirlines();
     $("#reliveModal").leanModal();
-    
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -20,7 +20,7 @@ class ReliveModal extends React.Component {
 
   componentDidMount() {
     $('ul.tabs#relive-modal-tabs').tabs();
-    
+
     $('body').on('click', '.selected-photo-options a.relive', () => {
       $("#reliveModal").openModal({dismissible: false});
       $('a[href="#flight-itinerary"]').click();
@@ -42,9 +42,27 @@ class ReliveModal extends React.Component {
         $("#action-button").addClass("hide");
         $("#reliveModal").closeModal();
         Materialize.toast('Flight Booked!', 3000);
+        $.ajax({
+          url: "/send_text",
+          data: {
+            number: "+1" + $("#phone_number").val(),
+            destination: this.flightInfo.destination,
+            airline: this.airlines[this.flightInfo.airline].name,
+            price: "$" + this.flightInfo.price,
+            departure_date: this.flightInfo.departure_date,
+            return_date: this.flightInfo.return_date,
+            source: window.userLocation
+          },
+          success: (data) => {
+            console.log("SUCCESSFUL TEXT SENT");
+          },
+          error: (data) => {
+            console.log("UNSUCCESSFUL TEXT SENT");
+          }
+        })
         this.flightInfo = null;
       }
-      
+
     });
 
     $('body').on('click', '#cancel-button', () => {
@@ -60,7 +78,7 @@ class ReliveModal extends React.Component {
       }
       $("#reliveModal").closeModal();
       this.flightInfo = null;
-      
+
     });
   }
 
@@ -102,6 +120,7 @@ class ReliveModal extends React.Component {
       console.log("Invalid airports");
     }
   }
+
 
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -147,10 +166,15 @@ class ReliveModal extends React.Component {
                   </tr>
                 </tbody>
               </table>
+              <div className="input-field col s12 white-text">
+                <i className="material-icons prefix">phone</i>
+                <input id="phone_number" type="tel" className="validate" />
+                <label htmlFor="phone_number">Phone Number to Send Flight Details</label>
+              </div>
             </div>
           );
         }
-        
+
       } else {
         return (
           <div className="col s12">
@@ -164,13 +188,13 @@ class ReliveModal extends React.Component {
     } else {
       return null;
     }
-    
+
   }
 
   renderSquare() {
     if (this.flightInfo) {
       return (
-        <Square amount={this.flightInfo.price} />
+        <Square amount={this.flightInfo.price * 100} />
       );
     } else {
       return <p className="white-text">No Square :(</p>
