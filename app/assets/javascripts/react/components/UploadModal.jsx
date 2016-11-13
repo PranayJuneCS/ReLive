@@ -13,6 +13,9 @@ class UploadModal extends React.Component {
       caption: "",
       tags: []
     };
+
+    this.addedChips = false;
+
   }
 
   componentDidMount() {
@@ -31,9 +34,8 @@ class UploadModal extends React.Component {
   }
 
   sendInfoToServer() {
-    let tagStrings = this.getTagNames();
+    let tagStrings = this.getAllTags();
     let caption = $("#caption").val();
-    console.log(caption);
     let city = $("#city").val();
     $.ajax({
       type: "POST",
@@ -72,14 +74,18 @@ class UploadModal extends React.Component {
 
     $('#finish-button').text("Cancel");
     $('#city').val("");
-    let length = $('.chips-initial').material_chip('data').length;
-    $('.chips-initial').material_chip('data').splice(0, length);
+    
     $('div.chip').remove();
-    // $('.chips-initial').material_chip({
-    //   placeholder: 'Enter a tag',
-    //   secondaryPlaceholder: '+Tag',
-    //   data: [],
-    // });
+    this.addedChips = false;
+  }
+
+  getAllTags() {
+    let tags = [];
+    $('.chip').each((index) => {
+      let child = $('.chip')[index];
+      tags.push(child.firstChild.data);
+    });
+    return tags;
   }
 
   onImageDrop(file) {
@@ -132,10 +138,18 @@ class UploadModal extends React.Component {
 
   getTagNames() {
     let list = [];
-    for (var object of $('.chips-initial').material_chip('data')) {
+    for (var object of this.state.tags) {
       list.push(object.tag);
     }
     return list;
+  }
+
+  appendChipDivs() {
+    for (var name of this.getTagNames()) {
+      let newChip = "<div class='chip'>" + name + "<i class='material-icons close'>close</i></div>";
+      $(newChip).insertBefore(".chip-placeholder > input");
+    }
+    this.addedChips = true;
   }
 
   status() {
@@ -146,24 +160,26 @@ class UploadModal extends React.Component {
         </div>
       );
     } else if (this.state.upload == 'finished') {
-      $("#edit-confirm").removeClass('disabled');
+      if (!this.addedChips) {
+        $("#edit-confirm").removeClass('disabled');
 
-      $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
-      Materialize.updateTextFields();
-      $("#import-photo").addClass("disabled");
+        $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
+        Materialize.updateTextFields();
+        $("#import-photo").addClass("disabled");
 
-      $("#finish-button").text("Finish");
-      console.log(this.state.tags);
-      $('.chips-initial').material_chip({
-        placeholder: 'Enter a tag',
-        secondaryPlaceholder: '+Tag',
-        data: this.state.tags,
-      });
-      return (
-        <div>
-          <p>Finished!</p>
-        </div>
-      );
+        $("#finish-button").text("Finish");
+        $('.chip-placeholder').material_chip({
+          placeholder: 'Enter a tag',
+          secondaryPlaceholder: '+Tag',
+        });
+        this.appendChipDivs();
+        return (
+          <div>
+            <p>Finished!</p>
+          </div>
+        );
+      }
+      
     }
     return null;
   }
@@ -205,7 +221,7 @@ class UploadModal extends React.Component {
                   <input id="caption" type="text" value={this.state.caption} onChange={this.handleChange.bind(this)} className="validate active white-text" />
                   <label htmlFor="caption" className="active">Description</label>
                 </div>
-                <div className="chips-initial chip-container white-text"></div>
+                <div className="chip-placeholder chip-container white-text"></div>
                 <div className="input-field col s12">
                   <input id="city" type="text" className="validate white-text" />
                   <label htmlFor="city" className="active">City</label>
