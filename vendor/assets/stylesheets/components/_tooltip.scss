@@ -10,12 +10,13 @@
   opacity: 0;
   display: none;
   position: absolute;
-  text-align: center;
-  max-width: calc(100% - 4px);
+  text-align: left;
+  max-width: 240px;
   overflow: hidden;
   left: 0;
   top: 0;
   pointer-events: none;
+  transform: translateY(50%);
 }
 
 .backdrop {
