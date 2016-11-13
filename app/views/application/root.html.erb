@@ -24,25 +24,20 @@
     }
 
     function setText(text) {
+        debugger;
         setTimeout(() => {
-            console.log(text);
             $(".mic-loader").css({"display": "none"});
+            $(".mic-output").text("");
             if (text.entities && text.entities.length > 0) {
                 if (text.intents[0].intent == "SearchEmotions") {
-                    $('#mic-output').text(text.query + " | Entity: " + text.entities[0].entity);
-                    setTimeout(() => {
-                        window.filterPictures(text.entities[0].entity, true)
-                        $('.mic-modal-close').click();
-                        $('#mic-output').text("");
-                    }, 1000)
+                    window.filterPictures(text.entities[0].entity, true)
+                    $('.mic-modal-close').click();
+                    $('#mic-output').text("");
 
                 } else {
-                    $('#mic-output').text(text.query + " | Entity: " + text.entities[0].entity);
-                    setTimeout(() => {
-                        window.filterPictures(text.entities[0].entity, false)
-                        $('.mic-modal-close').click();
-                        $('#mic-output').text("");
-                    }, 1000)
+                    window.filterPictures(text.entities[0].entity, false)
+                    $('.mic-modal-close').click();
+                    $('#mic-output').text("");
                 }
             } else {
                 $('#mic-output').text("Uh Oh! Something went wrong.");
@@ -51,7 +46,7 @@
                     $('#mic-output').text("");
                 }, 2000)
             }
-        }, 1000);
+        }, 2000);
     }
 
     function getLuisConfig() {
@@ -63,6 +58,89 @@
         return null;
     }
 
+    function handleJSONWebResponse(xhr) {
+        if (typeof (xhr.response) == "string") {
+            return JSON.parse(xhr.response);
+        }
+        return xhr.response;
+    }
+
+    var Task = (function () {
+        function Task() {
+            this.completed = false;
+            this.startTime = Date.now();
+        }
+        Task.prototype.complete = function () {
+            this.signalComplete(true);
+        };
+        Task.prototype.resolve = function (result) {
+            this.signalComplete(result);
+        };
+        Task.prototype.done = function (cb) {
+            if (this.completed) {
+                cb(this.result);
+                return;
+            }
+            this.cb = cb;
+        };
+        Object.defineProperty(Task.prototype, "elapsedTime", {
+            get: function () {
+                return (Date.now() - this.startTime) / 1000;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Task.prototype.signalComplete = function (result) {
+            this.result = result;
+            this.completed = true;
+            if (this.cb) {
+                this.cb(this.result);
+            }
+        };
+        return Task;
+    })();
+
+    var LuisClient = (function () {
+        function LuisClient(prefs) {
+            this._prefs = prefs;
+            switch(prefs.authenticationScheme) {
+                case "MAIS":
+                    this._auth = new CognitiveServiceAuthenticator();
+                    break;
+                case "ADM":
+                    this._auth = new AdmAuthenticator();
+                    break;
+            }
+        }
+        LuisClient.kServiceUrl = "https://api.projectoxford.ai/luis/v1/application?subscription-key=";
+        LuisClient.prototype.getIntent = function (text) {
+            var task = new Task();
+            var request = new XMLHttpRequest();
+            request.open('GET', [
+                LuisClient.kServiceUrl, 
+                this._prefs.subid, 
+                "&id=", 
+                this._prefs.appid, 
+                "&q=", 
+                text
+            ].join(""), true);
+            request.onload = function () {
+                console.log("Luis onload");
+                if (request.readyState == 4 && request.status === 200) {
+                    var response = handleJSONWebResponse(request);
+                    task.resolve(request.response);
+                } else {
+                    task.resolve(null);
+                }
+            };
+            request.send();
+            return task;
+        };
+        return LuisClient;
+    })();
+
+    window.luis = new LuisClient(getLuisConfig());
+
     function start() {
 
         var mode = getMode();
@@ -71,73 +149,65 @@
 
         if (useMic()) {
             if (luisCfg) {
-                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClientWithIntent(
-                    getLanguage(),
-                    getKey(),
-                    luisCfg.appid,
-                    luisCfg.subid);
-            } else {
-                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClient(
-                    mode,
-                    getLanguage(),
-                    getKey());
-            }
-            client.startMicAndRecognition();
-            setTimeout(function () {
-                client.endMicAndRecognition();
-                $('.mic-loader').css({"display": "block"});
-                setTimeout(() => {
-                    if ($('.mic-loader').css('display') !== "none") {
-                        $(".mic-loader").css({"display": "none"});
-                        $('#mic-output').text("Uh Oh! Something went wrong.");
-                        setTimeout(() => {
-                            $('.mic-modal-close').click();
-                            $('#mic-output').text("");
-                        }, 2000)
+                var mediaNav = navigator;
+                var acWindow = window;
+                mediaNav.getUserMedia = mediaNav.getUserMedia || mediaNav.mozGetUserMedia || mediaNav.webkitGetUserMedia || mediaNav.msGetUserMedia || CreateActiveXObject("Bing.GetUserMedia");
+
+                (navigator).getUserMedia({
+                    audio: true
+                }, function (stream) {
+
+                    // Will be used when we need to make a visual display of recording audio
+                    window.speechEvents = hark(stream, {});
+
+                    window.speechEvents.on('speaking', function() {
+                      console.log('speaking');
+                    });
+
+                    window.speechEvents.on('stopped_speaking', () => {
+                      console.log('stopped_speaking');
+                    });
+
+                    window.speechEvents.on('volume_change', (vol, threshold) => {
+                      var height = vol + 50 < 0 ? 10 : ((vol + 50) / 25) * 50;
+                      if (height > 50) {
+                        height = 50;
+                      }
+                      height = parseInt($('.mic-bar-1').css("height"), '10') + ((height - parseInt($('.mic-bar-1').css("height"), '10')) * 0.1);
+                      $('.mic-bar-6').css({height: parseInt($('.mic-bar-5').css("height"), '10')});
+                      $('.mic-bar-5').css({height: parseInt($('.mic-bar-4').css("height"), '10')});
+                      $('.mic-bar-4').css({height: parseInt($('.mic-bar-3').css("height"), '10')});
+                      $('.mic-bar-3').css({height: parseInt($('.mic-bar-2').css("height"), '10')});
+                      $('.mic-bar-2').css({height: parseInt($('.mic-bar-1').css("height"), '10')});
+                      $('.mic-bar-1').css({height: height});
+                    })
+                }, function() {});
+
+                  var recognition = new webkitSpeechRecognition();
+                  recognition.continuous = false;
+                  recognition.interimResults = true;
+                  recognition.onresult = function(event) {
+                    console.log(event.results[0][0].transcript);
+                    $('#mic-output').text(event.results[0][0].transcript);
+                    if (event.results[0].isFinal) {
+                        window.luis.getIntent(event.results[0][0].transcript).done(function(r) {
+                            setText(JSON.parse(r));
+                        });
                     }
+                  }
 
-                }, 8000)
-            }, 4000);
+                  recognition.onend = function(event) {
 
-        } else {
+                    setTimeout(() => {
+                        $('#mic-output').text("");
+                        $('.mic-loader').css({"display": "block"});
+                    }, 500);
+                    window.speechEvents.stop()
 
-            if (luisCfg) {
-                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createDataClientWithIntent(
-                    getLanguage(),
-                    getKey(),
-                    luisCfg.appid,
-                    luisCfg.subid);
-            } else {
-                client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createDataClient(
-                    mode,
-                    getLanguage(),
-                    getKey());
+                  }
+                  recognition.start();
             }
-            request = new XMLHttpRequest();
-            request.open(
-                'GET',
-                (mode == Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionMode.shortPhrase) ? "whatstheweatherlike.wav" : "batman.wav",
-                true);
-            request.responseType = 'arraybuffer';
-            request.onload = function () {
-                if (request.status !== 200) {
-                    setText("unable to receive audio file");
-                } else {
-                    client.sendAudio(request.response, request.response.length);
-                }
-            };
-            request.send();
-
         }
-
-
-        client.onFinalResponseReceived = function (response) {
-            //setText(JSON.stringify(response));
-        }
-
-        client.onIntentReceived = function (response) {
-            setText(JSON.parse(response));
-        };
     }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/2.5.0/fuse.min.js" type="text/javascript"></script>
