@@ -308,7 +308,6 @@ body, html {
   margin-top: 16px;
   display: inline-block;
   margin-left: 0;
-  marting-right: 0;
   width: 16px;
   height: 16px;
   perspective: 300px;
@@ -319,7 +318,6 @@ body, html {
   margin-top: 16px;
   display: inline-block;
   margin-left: 0;
-  marting-right: 0;
   width: 256px;
   height: 256px;
   perspective: 300px;
@@ -338,7 +336,7 @@ body, html {
   width: 20px;
   height: 20px;
   font-size: 45px;
-  font-family: verdana; 
+  font-family: verdana;
   font-weight: 800;
   color: white;
 }

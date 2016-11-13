@@ -91,7 +91,7 @@ class UploadModal extends React.Component {
   }
 
   onImageDrop(file) {
-    this.setState({ upload: 'uploading', upload_dialog: "hide", upload_gyroscope: "" });
+    this.setState({ upload: 'uploading', upload_dialog: "hide", upload_gyroscope: "center" });
     let upload = request.post(CLOUDINARY_UPLOAD_URL)
                         .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                         .field('file', file);
@@ -134,18 +134,14 @@ class UploadModal extends React.Component {
             $("#edit-confirm").removeClass('disabled');
             $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
             $("#import-photo").addClass("disabled");
+            this.setState({upload_dialog: "", upload_gyroscope: "hide"});
             $("#finish-button").text("Finish");
-            console.log(this.state.tags);
             $('.chips-initial').material_chip({
               placeholder: 'Enter a tag',
               secondaryPlaceholder: 'Enter a tag',
               data: this.state.tags,
             });
             Materialize.updateTextFields();
-          },
-          error: (jqXHR, textStatus, errorThrown) => {
-            console.log(textStatus);
-            console.log(errorThrown);
           }
         });
       }
@@ -195,7 +191,7 @@ class UploadModal extends React.Component {
               <DropZone uploadImage={this.onImageDrop.bind(this)} />
             </div>
             <div className={this.state.upload_gyroscope}>
-              <Gyroscope />
+              <Gyroscope size={128}/>
             </div>
           </div>
 
