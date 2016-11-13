@@ -11,7 +11,9 @@ class UploadModal extends React.Component {
       upload: 'before',
       pic_url: null,
       caption: "",
-      tags: []
+      tags: [],
+      upload_dialog: "",
+      upload_gyroscope: "hide"
     };
 
     this.addedChips = false;
@@ -86,12 +88,15 @@ class UploadModal extends React.Component {
       let child = $('.chip')[index];
       tags.push(child.firstChild.data);
     });
-    console.log(tags);
     return tags;
   }
 
   onImageDrop(file) {
-    this.setState({ upload: 'uploading' });
+    this.setState({
+      upload: 'uploading',
+      upload_dialog: 'hide',
+      upload_gyroscope: 'center'
+    });
     let upload = request.post(CLOUDINARY_UPLOAD_URL)
                         .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                         .field('file', file);
@@ -130,7 +135,20 @@ class UploadModal extends React.Component {
               upload: 'finished',
               pic_url: cloudURL,
               caption: caption,
-              tags: actualTags });
+              tags: actualTags
+            });
+            $("#edit-confirm").removeClass('disabled');
+            $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
+            $("#import-photo").addClass("disabled");
+            this.setState({upload_dialog: "", upload_gyroscope: "hide"});
+            $("#finish-button").text("Finish");
+            $('.chips-placeholder').material_chip({
+              placeholder: 'Enter a tag',
+              secondaryPlaceholder: 'Enter a tag'
+            });
+            this.appendChipDivs();
+            $('.dz-image-preview').remove();
+            $('.dz-message').css("display", "block");
             Materialize.updateTextFields();
           }
         });
@@ -149,44 +167,9 @@ class UploadModal extends React.Component {
   appendChipDivs() {
     for (var name of this.getTagNames()) {
       let newChip = "<div class='chip'>" + name + "<i class='material-icons close'>close</i></div>";
-      $(newChip).insertBefore(".chip-placeholder > input");
+      $(newChip).insertBefore(".chips-placeholder > input");
     }
     this.addedChips = true;
-  }
-
-  status() {
-    if (this.state.upload == 'uploading') {
-      $('.dz-message').css("display", "none");
-      return (
-        <div>
-          <p>Uploading...</p>
-        </div>
-      );
-    } else if (this.state.upload == 'finished') {
-      if (!this.addedChips) {
-        $("#edit-confirm").removeClass('disabled');
-
-        $('ul.tabs#upload-modal-tabs').tabs('select_tab', 'edit-photo');
-        Materialize.updateTextFields();
-        $("#import-photo").addClass("disabled");
-
-        $("#finish-button").text("Finish");
-        $('.chip-placeholder').material_chip({
-          placeholder: 'Enter a tag',
-          secondaryPlaceholder: '+Tag',
-        });
-        this.appendChipDivs();
-        $('.dz-image-preview').remove();
-        $('.dz-message').css("display", "block");
-        return (
-          <div>
-            <p>Finished!</p>
-          </div>
-        );
-      }
-      
-    }
-    return null;
   }
 
   handleChange(event) {
@@ -212,8 +195,12 @@ class UploadModal extends React.Component {
           </div>
 
           <div id="upload-photo" className="upload-modal-height">
-            <DropZone uploadImage={this.onImageDrop.bind(this)} />
-            {this.status()}
+            <div className={this.state.upload_dialog}>
+              <DropZone uploadImage={this.onImageDrop.bind(this)} />
+            </div>
+            <div className={this.state.upload_gyroscope}>
+              <Gyroscope size={128}/>
+            </div>
           </div>
 
           <div id="edit-photo">
@@ -226,7 +213,9 @@ class UploadModal extends React.Component {
                   <input id="caption" type="text" value={this.state.caption} onChange={this.handleChange.bind(this)} className="validate active white-text" />
                   <label htmlFor="caption" className="active">Description</label>
                 </div>
-                <div className="chip-placeholder chip-container white-text"></div>
+                <div className="input-field col s12">
+                  <div className="chips-placeholder chip-container white-text"></div>
+                </div>
                 <div className="input-field col s12">
                   <input id="city" type="text" className="validate white-text" />
                   <label htmlFor="city" className="active">City</label>
