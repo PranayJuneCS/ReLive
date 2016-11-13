@@ -29,7 +29,6 @@ class Photo < ApplicationRecord
     end
 
     body = JSON.parse(response.body)
-    puts body
 
     if body["description"]
       tags = body["description"]["tags"]
@@ -132,7 +131,6 @@ class Photo < ApplicationRecord
           end
 
           body = JSON.parse(response.body)
-          puts body
 
           if body[0]
             self.airport = body[0]["airport"]
