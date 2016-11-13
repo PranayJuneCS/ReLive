@@ -55,15 +55,26 @@ class PhotoCard extends React.Component {
       //tagsString += tag.text + " ";
     }
 
-    $('.material-tooltip#' + $('.selected-photo-info').data('tooltip-id') + " span").html("<h5>" + this.props.caption + "</h5><br /><br />" + tagsString);
+    var emotionsString = "<h6>Emotions</h6><br />";
+    if (this.props.faces.length == 0) {
+      emotionsString = "";
+    }
+    for (face of this.props.faces) {
+      emotionsString += '<div class="chip">' + face.emotion + '</div>'
+      //tagsString += tag.text + " ";
+    }
+
+    $('.material-tooltip#' + $('.selected-photo-info').data('tooltip-id') + " span").html("<h5>" + this.props.caption + "</h5><br /><br />" + tagsString + "<br /><br />" + emotionsString);
     setTimeout(function(comp) {
           $(".selected-photo").removeClass("hide").removeClass("fadeOut").addClass("fadeIn");
           $(".selected-photo img").attr('src', comp[0].props.url);
           $(".selected-photo img").css({"top": $('body').scrollTop() + (screen.height / 2) - 100, left: screen.width / 2});
           $(".selected-photo-close").css({"top": $('body').scrollTop() - ($(".selected-photo img").height() / 2) + (screen.height / 2) - 100, left: screen.width / 2 - ($(".selected-photo img").width() / 2)});
           $(".selected-photo-info").css({"top": $('body').scrollTop() - ($(".selected-photo img").height() / 2) + (screen.height / 2) - 100, left: screen.width / 2 + ($(".selected-photo img").width() / 2)});
+          $(".selected-photo-options").css({"top": $('body').scrollTop() + ($(".selected-photo img").height() / 2) + (screen.height / 2) - 60, left: screen.width / 2 });
     }, 150, [this])
     window.pictureActive = true;
+    window.activePicture = this.props.photo;
     this.getFlights();
   }
 
