@@ -298,6 +298,17 @@ body, html {
   transform-style: preserve-3d;
 }
 
+.atom.large {
+  margin-top: 16px;
+  display: inline-block;
+  margin-left: 0;
+  marting-right: 0;
+  width: 256px;
+  height: 256px;
+  perspective: 300px;
+  transform-style: preserve-3d;
+}
+
 .letter {
   position: absolute;
   top: 0;
@@ -324,7 +335,7 @@ body, html {
   margin: auto;
   width: 50px;
   height: 50px;
-  border-radius: 60px;
+  border-radius: 100px;
   border: 2px solid white;
   transform-style: preserve-3d;
 }
@@ -332,6 +343,11 @@ body, html {
 .atom.small .electron {
   width: 30px;
   height: 30px;
+}
+
+.atom.large .electron {
+  width: 90px;
+  height: 90px;
 }
 
 .atom .electron:nth-child(1) {
