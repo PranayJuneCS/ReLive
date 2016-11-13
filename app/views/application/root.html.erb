@@ -140,7 +140,7 @@ h2 {
 }
 
 .vcenter {
-  position: relative;
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -151,26 +151,36 @@ html, body {
   background-color: #141e2a;
 }
 
-#login {
-  display: none;
+.splash {
+    height: 100%;
+    width: 100%;
+    background-color: #141e2a;
+    z-index: 60000;
+}
+
+.splash-title {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.splash-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-60%, -50%);
 }
 
 </style>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(function() {
-        $('#app').removeClass('hide');
-        $('.splash').addClass('hide');
-      }, 1500);
-    }, false);
-</script>
-<div class="splash container vcenter">
-  <div class="row">
+
+<div class="animated splash container vcenter">
+  <div class="row splash-title">
     <div class="col s6 offset-s3 center">
       <h2>Relive</h2>
     </div>
   </div>
-  <div class="row">
+  <div class="row splash-loader">
     <div class="col s2 offset-s5 center">
         <div class="atom">
           <div class="electron"></div>

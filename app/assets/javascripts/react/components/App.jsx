@@ -86,7 +86,6 @@ class App extends React.Component {
     if (this.state.loading) {
       return (
         <div>
-          <h1 className="center-align">Loading...</h1>
         </div>
       );
     }
