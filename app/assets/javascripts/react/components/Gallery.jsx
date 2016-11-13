@@ -25,6 +25,7 @@ class Gallery extends React.Component {
                     userLocation={props.userLocation}
                     url={photo.url} airport={photo.airport}
                     caption={caption}
+                    tags={photo.tags}
                   />;
       photos[counter % photos.length].push(card);
       counter += 1;
