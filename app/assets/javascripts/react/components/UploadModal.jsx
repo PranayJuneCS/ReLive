@@ -154,6 +154,7 @@ class UploadModal extends React.Component {
 
   status() {
     if (this.state.upload == 'uploading') {
+      $('.dz-message').css("display", "none");
       return (
         <div>
           <p>Uploading...</p>
@@ -173,6 +174,8 @@ class UploadModal extends React.Component {
           secondaryPlaceholder: '+Tag',
         });
         this.appendChipDivs();
+        $('.dz-image-preview').remove();
+        $('.dz-message').css("display", "block");
         return (
           <div>
             <p>Finished!</p>
